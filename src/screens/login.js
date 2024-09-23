@@ -6,13 +6,13 @@ import { Input } from "react-native-elements";
 const usersData = require("../services/api.json");
 
 export default function Login({ navigation }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = () => {
     const user = usersData.users.find(
-      (user) => user.username === username && user.password === password
+      (user) => user.email === email && user.password === password
     );
 
     if (user) {
@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
             placeholder="E-mail"
             placeholderTextColor="#49070A98"
             leftIcon={{ type: "font-awesome", name: "user", color: "#49070A98" }}
-            onChangeText={(value) => setUsername(value)}
+            onChangeText={(value) => setEmail(value)}
             keyboardType="email-address"
           />
         </View>

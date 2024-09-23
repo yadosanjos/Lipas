@@ -2,13 +2,8 @@
     "users": [
       {
         "id": 1,
-        "username": "teste",
-        "password": "1234"
-      },
-      {
-        "id": 2,
-        "username": "user2",
-        "password": "password2"
+        "email": "juliacabral@gmail.com",
+        "password": "12345"
       }
     ]
   }

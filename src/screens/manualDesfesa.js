@@ -13,26 +13,36 @@ const ManualDefesaScreen = ({ navigation }) => {
 
       <ScrollView>
         <View style={styles.combo}>
-        <TouchableOpacity onPress={() => navigation.navigate('BotaoPanico')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Direito')}>
           <Image source = {require('../assets/cards/direito.png')} style={styles.image1} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('BotaoPanico')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Autodefesa')}>
           <Image source = {require('../assets/cards/autodefesa.png')} style={styles.image1} />
         </TouchableOpacity>
         </View>
 
         <View style={styles.combo}>
+        <TouchableOpacity onPress={() => navigation.navigate('Socorros')}>
         <Image source = {require('../assets/cards/socorros.png')} style={styles.image2} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Numeros')}>
         <Image source = {require('../assets/cards/numero.png')} style={styles.image2} />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.combo}>
+        <TouchableOpacity>
         <Image source = {require('../assets/cards/digital.png')} style={styles.image2} />
+        </TouchableOpacity>
+        <TouchableOpacity>
         <Image source = {require('../assets/cards/encontro.png')} style={styles.image2} />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.combo}>
+        <TouchableOpacity>
         <Image source = {require('../assets/cards/cyber.png')} style={styles.image2} />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.combo}>

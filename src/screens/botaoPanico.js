@@ -8,7 +8,8 @@ const BotaoPanicoScreen = ({ navigation }) =>{
       <View style={styles.cabecalho}>
         <Image source={require('../assets/borboleta.png')} style={styles.borboleta} />
       </View>
-      
+      <Image source = {require('../assets/carregamento2.png')} style = {styles.carregamento}/>
+
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Home')}>
         <Image source = {require('../assets/local.png')} style = {styles.local} />
       </TouchableWithoutFeedback>
@@ -91,6 +92,12 @@ const styles = StyleSheet.create({
   espaco: {
     width: '100%',
     height: 100,
+  },
+  carregamento: {
+    width: 100,
+    height: 100,
+    marginLeft: 160,
+    marginTop: 320,
   },
 });
 

@@ -24,6 +24,7 @@
     "expo-font": "~12.0.10",
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
+    "firebase": "^10.13.2",
     "react": "18.2.0",
     "react-native": "0.74.5",
     "react-native-elements": "^3.4.3",

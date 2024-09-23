@@ -52,11 +52,8 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   container2: {
-    backgroundColor: '#FFEDE3',
     width: '100%',
     height: 450,
-    borderWidth: 2,
-    borderColor: '#640F1480',
     marginTop: 420,
     borderRadius: 50,
     position: 'absolute',
