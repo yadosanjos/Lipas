@@ -1,8 +1,10 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import HomeScreen from "../screens/home";
-import BotaoPanicoScreen from "../screens/botaoPanico";
-import IndexScreen from "../screens/index";
+import TabNavigator from "../routes/tab";
+import PerfilScreen from "../screens/index";
+import FeedbackScreen from "../screens/feedback";
+import SobreScreen from "../screens/sobre";
+import ConfiguracaoScreen from "../screens/configuracao";
 import 'react-native-gesture-handler';
 
 import CustomDrawer from "../components/customDrawer/input"
@@ -20,27 +22,27 @@ function DrawerNavigator() {
     }}>
       <Drawer.Screen
         name="  "
-        component={HomeScreen}
+        component={TabNavigator}
       /> 
 
       <Drawer.Screen
         name="Perfil"
-        component={IndexScreen}
+        component={PerfilScreen}
       /> 
 
      <Drawer.Screen
         name="Feedback"
-        component={IndexScreen}
+        component={FeedbackScreen}
       />
 
      <Drawer.Screen
         name="Sobre"
-        component={IndexScreen}
+        component={SobreScreen}
       />
 
      <Drawer.Screen
         name="Configuração"
-        component={IndexScreen}
+        component={ConfiguracaoScreen}
       />
 
     </Drawer.Navigator>
