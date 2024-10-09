@@ -28,7 +28,7 @@ function TabNavigator() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({color}) => (
-            <Feather name='map-pin' size={25} color={color}/>
+            <Feather name='map-pin' size={27} color={color}/>
           )
         }}
       />
@@ -38,7 +38,7 @@ function TabNavigator() {
         component={BotaoPanicoScreen}
         options={{
           tabBarIcon: ({color}) => (
-            <Feather name='volume-1' size={25} color={color} />
+            <Feather name='volume-1' size={27} color={color} />
           )
         }}
       />
@@ -48,7 +48,7 @@ function TabNavigator() {
         component={ManualDeDefesaScreen}
         options={{
           tabBarIcon: ({color}) => (
-            <Feather name='book' size={25} color={color}/>
+            <Feather name='book' size={27} color={color}/>
           )
         }}
       />

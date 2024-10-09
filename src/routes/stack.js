@@ -6,7 +6,6 @@ import CadastroScreen from "../screens/cadastro";
 import EsqueceuSenhaScreen from "../screens/esqueceuSenha";
 import BotaoPanicoScreen from "../screens/botaoPanico";
 import ManualDeDefesaScreen from "../screens/manualDesfesa"
-
 import DireitoScreen from "../screens/cardDireito";
 import LeiMariaScreen from "../screens/leiMaria";
 import LeiCarolinaScreen from "../screens/leiCarolina";
@@ -17,9 +16,7 @@ import LeiImportunacaoScreen from "../screens/leiImportunacao";
 import LeiSinalScreen from "../screens/leiSinal";
 import LeiMarianaScreen from "../screens/leiMariana";
 import LeiStalkingScreen from "../screens/leiStalking";
-
 import AutodefesaScreen from "../screens/cardAutodefesa";
-
 import SocorrosScreen from "../screens/cardSocorros";
 import DesmaioScreen from "../screens/situDesmaio";
 import QueimadurasScreen from "../screens/situQueimaduras";
@@ -31,10 +28,18 @@ import HemorragiaScreen from "../screens/situHemorragia";
 
 import NumerosScreen from "../screens/cardNumeros";
 
-import ExplicaContato1Screen from "../screens/explicacontato1";
+import  EmergencyContactsScreen from "../screens/explicacontato1";
 
 import DrawerNavigator from "./drawer";
 
+import SobreScreen from "../screens/sobre";
+import TermosCondicoesScreen from "../screens/termos";
+import PrivacyPolicyScreen from "../screens/politica";
+import ConfigScreen from "../screens/configuracao";
+
+import InfoScreen from "../screens/contato2";
+import FontSizeScreen from "../screens/fontsize";
+import Cont3Screen from "../screens/explicacontato3";
 const Stack = createNativeStackNavigator();
 
 function StackNavigator({ onLoginSuccess }) {
@@ -160,9 +165,38 @@ function StackNavigator({ onLoginSuccess }) {
 
       <Stack.Screen 
         name='ExplicaContato1' 
-        component={ExplicaContato1Screen} 
+        component={ EmergencyContactsScreen} 
         options={{ headerShown: false }}/>
 
+     <Stack.Screen 
+        name='Sobre' 
+        component={SobreScreen} 
+        options={{ headerShown: false }}/>     
+
+      <Stack.Screen 
+        name='Termos' 
+        component={TermosCondicoesScreen} 
+        options={{ headerShown: false }}/>
+
+      <Stack.Screen 
+        name='Politica' 
+        component={PrivacyPolicyScreen} 
+        options={{ headerShown: false }}/>
+   
+      <Stack.Screen 
+        name='Configuracao' 
+        component={ConfigScreen} 
+        options={{ headerShown: false }}/>
+
+        <Stack.Screen
+        name='Contato2'
+        component={InfoScreen}
+        options={{headerShown: false}}/>
+
+       <Stack.Screen
+        name='ExplicaContato3'
+        component={Cont3Screen}
+        options={{headerShown: false}}/>
 
     </Stack.Navigator>
   );

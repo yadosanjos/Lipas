@@ -1,7 +1,7 @@
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, StyleSheet, View, Text, Image } from "@react-navigation/drawer";
 import TabNavigator from "../routes/tab";
-import PerfilScreen from "../screens/index";
+import PerfilScreen from "../screens/perfil";
 import FeedbackScreen from "../screens/feedback";
 import SobreScreen from "../screens/sobre";
 import ConfiguracaoScreen from "../screens/configuracao";
@@ -17,18 +17,18 @@ function DrawerNavigator() {
      screenOptions={{
       headerTintColor: '#FFEDE3',
       headerStyle: { 
-        backgroundColor: '#49070A',
+      backgroundColor: '#49070A',
       }, 
     }}>
       <Drawer.Screen
-        name="  "
+        name="Home"
         component={TabNavigator}
       /> 
 
       <Drawer.Screen
         name="Perfil"
         component={PerfilScreen}
-      /> 
+      />
 
      <Drawer.Screen
         name="Feedback"
@@ -50,3 +50,7 @@ function DrawerNavigator() {
 }
 
 export default DrawerNavigator;
+
+
+
+
