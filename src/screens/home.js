@@ -2,12 +2,10 @@ import { DrawerActions } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet, Image, TouchableWithoutFeedback, Text, TouchableOpacity } from 'react-native';
 
-import MapView from 'react-native-maps';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} />
         <Image source={require('../assets/borboleta.png')} style={styles.borboleta} />
       <View style={styles.container2}>
 

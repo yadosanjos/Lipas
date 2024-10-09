@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Para o ícone do escudo
 
-const Cont3Screen = ({navigation}) => {
+const InfoScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* Botão de Fechar */}
@@ -12,11 +12,11 @@ const Cont3Screen = ({navigation}) => {
       </TouchableOpacity>
 
       {/* Ícone de escudo */}
-      <Image source={require('../assets/icons/panic-icon.png')} style={styles.icon} />
+      <Image source={require('../assets/icons/tel-icon.png')} style={styles.icon} />
 
       {/* Texto de instrução */}
       <Text style={styles.text}>
-      Em situações de emergência aperte duas vezes o botão de desligar do seu celular ou aperte duas vezes no ícone de som no menu inferior para acionar o botão pânico.
+      Não precisa ser usuário do Lipa’s. pode ser qualquer pessoa desde que ela aceite o convite que será disparado para o número de telefone dela.
       </Text>
 
       {/* Paginação (barras indicativas) */}
@@ -27,8 +27,8 @@ const Cont3Screen = ({navigation}) => {
       </View>
 
       
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('')}>
-        <Text style={styles.buttonText}>Entendi</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ExplicaContato3')}>
+        <Text style={styles.buttonText}>Próximo</Text>
       </TouchableOpacity>
     </View>
   );
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginBottom: 12,
-    height: 234,
-    marginHorizontal: 239,
+    height: 330,
+    width: 230,
   },
   text: {
     color: 'white',
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-export default Cont3Screen;
+export default InfoScreen;
