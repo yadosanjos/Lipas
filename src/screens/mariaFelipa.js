@@ -14,6 +14,10 @@ import {
   Inter_600SemiBold,
   Inter_400Regular,
 } from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
@@ -30,6 +34,8 @@ export default function MariaFelipaScreen({ navigation }) {
           Inter_500Medium,
           Inter_600SemiBold,
           Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
         });
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
