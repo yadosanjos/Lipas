@@ -40,6 +40,9 @@ import ConfigScreen from "../screens/configuracao";
 import InfoScreen from "../screens/contato2";
 import FontSizeScreen from "../screens/fontsize";
 import Cont3Screen from "../screens/explicacontato3";
+import EmergencyContactTypeScreen from "../screens/contato";
+import ContatoComum from "../screens/usucomum";
+import ContatoLipas from "../screens/usuLipas";
 const Stack = createNativeStackNavigator();
 
 function StackNavigator({ onLoginSuccess }) {
@@ -197,6 +200,22 @@ function StackNavigator({ onLoginSuccess }) {
         name='ExplicaContato3'
         component={Cont3Screen}
         options={{headerShown: false}}/>
+
+        <Stack.Screen
+        name='Contato'
+        component={EmergencyContactTypeScreen}
+        options={{headerShown: false}}/>
+
+        <Stack.Screen
+        name='usucomum'
+        component={ContatoComum}
+        options={{headerShown: false}}/>
+
+       <Stack.Screen
+        name='usuLipas'
+        component={ContatoLipas}
+        options={{headerShown: false}}/>
+
 
     </Stack.Navigator>
   );

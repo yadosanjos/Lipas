@@ -1,54 +1,60 @@
 import React from "react";
-import { createDrawerNavigator, StyleSheet, View, Text, Image } from "@react-navigation/drawer";
+import { createDrawerNavigator, StyleSheet, View, Text, Image, DrawerItem} from "@react-navigation/drawer";
+import CustomDrawer from "../components/customDrawer/input" 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import TabNavigator from "../routes/tab";
 import PerfilScreen from "../screens/perfil";
 import FeedbackScreen from "../screens/feedback";
 import SobreScreen from "../screens/sobre";
 import ConfiguracaoScreen from "../screens/configuracao";
-import 'react-native-gesture-handler';
-
-import CustomDrawer from "../components/customDrawer/input"
+import { Icon } from "react-native-paper";
 
 const Drawer = createDrawerNavigator();
 
-function DrawerNavigator() {
+const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName="Home"  drawerContent={(props) => <CustomDrawer {...props} />}      
-     screenOptions={{
-      headerTintColor: '#FFEDE3',
-      headerStyle: { 
-      backgroundColor: '#49070A',
-      }, 
-    }}>
-      <Drawer.Screen
-        name="Home"
-        component={TabNavigator}
-      /> 
+    <Drawer.Navigator 
+    drawerContent={props => <CustomDrawer {...props}/>}
+    screenOptions={{
+    drawerStyle: {
+    backgroundColor: '#FFEDE3',
+    },
+    headerStyle: {
+    backgroundColor: '#49070A',
+    },
+    headerTintColor: '#FFEDE3', 
+    drawerActiveTintColor: '#791227',
+    drawerTintColor: '#FFEDE3', 
+  }}>
 
-      <Drawer.Screen
-        name="Perfil"
-        component={PerfilScreen}
-      />
-
-     <Drawer.Screen
-        name="Feedback"
-        component={FeedbackScreen}
-      />
-
-     <Drawer.Screen
-        name="Sobre"
-        component={SobreScreen}
-      />
-
-     <Drawer.Screen
-        name="Configuração"
-        component={ConfiguracaoScreen}
-      />
-
-    </Drawer.Navigator>
+    <Drawer.Screen name="Home" component={TabNavigator} options={{
+      drawerIcon: ({color}) => (
+       <Ionicons name="home-outline" size={22} color={color}/>
+      ),
+      }}/>
+       <Drawer.Screen name="Perfil" component={PerfilScreen}options={{
+      drawerIcon: ({color}) => (
+       <Ionicons name="person-outline" size={22} color={color}/>
+      )
+    }}/>
+    <Drawer.Screen name="Sobre" component={SobreScreen}options={{
+      drawerIcon: ({color}) => (
+       <Ionicons name="information-circle-outline" size={22} color={color}/>
+      )
+    }}/>
+      <Drawer.Screen name="Feedback" component={FeedbackScreen}options={{
+      drawerIcon: ({color}) => (
+       <Ionicons name="star-outline" size={22} color={color}/>
+      )
+    }}/>
+    <Drawer.Screen name="Configuração" component={ConfiguracaoScreen}options={{
+      drawerIcon: ({color}) => (
+       <Ionicons name="settings-outline" size={22} color={color}/>
+      )
+    }}/>
+</Drawer.Navigator>
   );
 }
-
 export default DrawerNavigator;
 
 
