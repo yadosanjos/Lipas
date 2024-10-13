@@ -1,147 +1,164 @@
-import React from 'react';
-import { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import { Input }  from 'react-native-elements';
+import React, { useState, useEffect} from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 
-const PerfilScreen = ({ navigation }) => {
-    const [text, setName] = useState(null);
-    const [tel, setTel] = useState(null);
-    const [email, setEmail] = useState(null);
+SplashScreen.preventAutoHideAsync();
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'  
+export default function ProfileScreen() {
+  const [name, setName] = useState('Julia Cabral');
+  const [email, setEmail] = useState('julia.cabral@gmail.com');
+  const [phone, setPhone] = useState('(11) 99090-9090');
+  const [password, setPassword] = useState('********');
 
-    const continuar = () => {
-        navigation.navigate('')
-      };
+  const handleEditPhoto = () => {
+    Alert.alert('Editar Foto', 'Opção de edição de foto clicada.');
+  };
+
+  const handleEditField = (field) => {
+    Alert.alert('Editar Campo', `Edição de ${field} clicada.`);
+  };
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
-    <ScrollView>
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Sua Conta</Text>
-      </View>
+      <Text style={styles.header}>Sua conta</Text>
 
-      {/* Profile Picture */}
-      <View style={styles.profileSection}>
-        <Avatar
-          size="large"
-          rounded
-          icon={{ name: 'user', type: 'font-awesome' }}
-          containerStyle={styles.avatar}
-        />
-        <TouchableOpacity style={styles.editButton}>
-          <Text style={styles.editButtonText}>Editar foto</Text>
+      <View style={styles.profileContainer}>
+        <FontAwesome name="user-circle" size={80} color="#49070A" />
+        <TouchableOpacity style={styles.editPhotoButton} onPress={handleEditPhoto}>
+          <Text style={styles.editPhotoText}>Editar foto</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Profile Info */}
-      <View style={styles.infoSection}>
-        <View style={styles.infoItem}>
-          <Text style={styles.label}>ID</Text>
-          <Text style={styles.infoText}>#0001</Text>
-        </View>
-
-        <View style={styles.infoItem}>
+      <View style={styles.infoContainer}>
+        <View style={styles.infoTextContainer}>
           <Text style={styles.label}>Nome</Text>
-          <TextInput style={styles.input} placeholder="Julia Cabral" />
-          <Image source={require('../assets/icons/edit-icon.png')} style={styles.icon} />
+          <Text style={styles.value}>{name}</Text>
         </View>
+        <TouchableOpacity onPress={() => handleEditField('Nome')}>
+          <FontAwesome5 name="edit" size={27} color="#641919" />
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.infoItem}>
+      <View style={styles.infoContainer}>
+        <View style={styles.infoTextContainer}>
           <Text style={styles.label}>Endereço de e-mail</Text>
-          <TextInput style={styles.input} placeholder="julia.cabral@gmail.com" />
+          <Text style={styles.value}>{email}</Text>
         </View>
+        <TouchableOpacity onPress={() => handleEditField('E-mail')}>
+          <FontAwesome5 name="edit" size={27} color="#641919" />
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.infoItem}>
+      <View style={styles.infoContainer}>
+        <View style={styles.infoTextContainer}>
           <Text style={styles.label}>Telefone</Text>
-          <TextInput style={styles.input} placeholder="(11) 99090-9090" />
+          <Text style={styles.value}>{phone}</Text>
         </View>
+        <TouchableOpacity onPress={() => handleEditField('Telefone')}>
+          <FontAwesome5 name="edit" size={27} color="#641919" />
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.infoItem}>
+      <View style={styles.infoContainer}>
+        <View style={styles.infoTextContainer}>
           <Text style={styles.label}>Senha</Text>
-          <TextInput style={styles.input} secureTextEntry={true} placeholder="********" />
+          <Text style={styles.value}>{password}</Text>
         </View>
+        <TouchableOpacity onPress={() => handleEditField('Senha')}>
+          <FontAwesome5 name="edit" size={27} color="#641919" />
+        </TouchableOpacity>
       </View>
     </View>
-    </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8E9E0',
-    paddingHorizontal: 20,
+    backgroundColor: '#FAE9E4',
+    padding: 20,
   },
   header: {
-    marginTop: 15,
+    fontSize: 25,
+    fontFamily: 'Inter_600SemiBold',
+    color: '#641919',
+    marginBottom: 10,
+  },
+  profileContainer: {
+    alignItems: 'center',
     marginBottom: 20,
   },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#49070A',
-  },
-  profileSection: {
+  editPhotoButton: {
+    backgroundColor: '#49070A',
+    borderWidth: 2,
+    padding: 17,
+    marginHorizontal: 5,
+    marginVertical: 14,
     alignItems: 'center',
-    marginBottom: 30,
+    paddingVertical: 6,
+    borderRadius: 12,
   },
-  avatar: {
-    backgroundColor: '#49070A',
-    width: 80,
-    height: 80,
-  },
-  editButton: {
-    marginTop: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: '#49070A',
-    borderRadius:10,
-  },
-  editButtonText: {
-    color: '#F8E9E0',
+  editPhotoText: {
+    color: '#FFEDE3',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 20,
-    fontWeight: 'bold',
   },
-  infoSection: {
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 15,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderColor: '#DDC2BB',
+  },
+  infoTextContainer: {
     flex: 1,
-  },
-  infoItem: {
-    marginBottom: 15,
   },
   label: {
     fontSize: 23,
-    color: '#631C1C',
-    marginBottom: 5,
-    fontWeight: 'bold',
+    color: '#49070A',
+    fontFamily: 'Inter_600SemiBold',
   },
-  infoText: {
-    fontSize: 16,
-    color: '#631C1C',
-    paddingVertical: 1,
-    borderBottomWidth: 1,
-    paddingVertical: 12,
-    paddingTop: 1,
-    borderColor: '#DDC2BB',
-    fontWeight: 'light',
-  },
-  input: {
+  value: {
     fontSize: 20,
-    fontWeight: 'light',
-    color: '#631C1C',
-    paddingVertical: 1,
-    paddingTop: 1,
-    borderColor: '#DDC2BB',
-    borderBottomWidth: 1,
-    paddingVertical: 12,
-    paddingTop: 1,
-  },
-  icon: {
-    width: 40,
-    height: 40,
-    marginRight: 3,
-    marginHorizontal: 230,
-    marginVertical: 2,
+    color: '#641919',
+    fontFamily: 'Inter_400Regular',
   },
 });
-
-export default PerfilScreen;

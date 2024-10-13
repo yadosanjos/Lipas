@@ -1,7 +1,44 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 
+SplashScreen.preventAutoHideAsync();
+import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome' 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 const ConfigScreen = ({ navigation }) => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -13,7 +50,7 @@ const ConfigScreen = ({ navigation }) => {
 </View>
 
         <View style={styles.settingItem}>
-        <Image source={require('../assets/icons/font-icon.png')} style={styles.icon} />
+        <FontAwesome name="text-height" size={30} color="#49070A" />
         <View style={styles.textContainer}>
           <Text style={styles.optionText}>Tamanho da fonte</Text>
           <Text style={styles.optionStatus}>Padrão</Text>
@@ -24,7 +61,7 @@ const ConfigScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.settingItem}>
-        <Image source={require('../assets/icons/display-icon.png')} style={styles.icon} />
+      <FontAwesome name="text-width" size={30} color="#49070A" />
         <View style={styles.textContainer}>
           <Text style={styles.optionText}>Tamanho da exibição</Text>
           <Text style={styles.optionStatus}>Padrão</Text>
@@ -35,7 +72,7 @@ const ConfigScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.settingItem}>
-        <Image source={require('../assets/icons/color-icon.png')} style={styles.icon} />
+      <MaterialCommunityIcons name="border-color" size={30} color="#49070A" />
         <View style={styles.textContainer}>
           <Text style={styles.optionText}>Correção de cor</Text>
           <Text style={styles.optionStatus}>Desativado</Text>
@@ -44,7 +81,7 @@ const ConfigScreen = ({ navigation }) => {
         <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.exitButton}>
+      <TouchableOpacity style={styles.exitButton} onPress={() => navigation.navigate('Login')}>
         <Text style={styles.exitButtonText}>Sair do App</Text>
       </TouchableOpacity>
 
@@ -80,7 +117,7 @@ const styles = StyleSheet.create({
   },
   Title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_600SemiBold',
     color: '#631C1C',
     textAlign: 'center',
     paddingVertical: 23,
@@ -91,13 +128,15 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 16,
     color: '#631C1C',
-    fontWeight: 'bold',
+    fontFamily:'Inter_500Medium',
     borderColor: '#DDC2BB',
+    marginHorizontal: 6,
   },
   optionStatus: {
-    marginHorizontal: 2,
+    marginHorizontal: 9,
     fontSize: 11,
     color: '#631C1C',
+    fontFamily: 'Inter_500Medium',
   },
   exitButton: {
     backgroundColor: '#631C1C',
@@ -110,7 +149,7 @@ const styles = StyleSheet.create({
   exitButtonText: {
     color: '#fff',
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_700Bold',
     marginEnd: 10,
   },
   bottomMenu: {
@@ -135,16 +174,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 icon: {
-    width: 40,
-    height: 40,
-    marginRight: 3,
+    height: 30,
+    marginRight: 5,
   },
     settingItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderColor: '#CCC',
+    borderColor: '#DDC2BB',
   },
     sectionTitle: {
     fontSize: 18,
@@ -161,7 +199,7 @@ icon: {
   },
    arrow: {
     fontSize: 40,
-    color: '#800000',
+    color: '#49070A',
   },
 });
 

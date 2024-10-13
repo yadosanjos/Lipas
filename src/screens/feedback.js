@@ -1,16 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+  DMSerifDisplay_700Bold,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
+
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Para os ícones no rodapé e avaliação
-
 
 const FeedbackScreen = () => {
   const [feedback, setFeedback] = useState('');
   const [rating, setRating] = useState(0);
-
+  const [appIsReady, setAppIsReady] = useState(false);
   const handleRating = (value) => {
     setRating(value);
   };
-
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
     <View style={styles.container}>
       {/* Texto explicativo */}
@@ -60,11 +94,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   instructions: {
-    marginTop: 20,
-    fontSize: 22,
+    marginTop: 15,
+    fontSize: 20,
     textAlign: 'center',
     color: '#7C1C1C',
-    fontWeight: 'light',
+    fontFamily: 'Inter_500Medium',
   },
   textInput: {
     marginTop: 20,
@@ -79,7 +113,7 @@ const styles = StyleSheet.create({
   ratingTitle: {
     marginTop: 33,
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'DMSerifDisplay_400Regular',
     textAlign: 'center',
     color: '#7C1C1C',
     marginVertical: 1,
@@ -91,6 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: 13,
     color: '#7C1C1C',
     fontWeight: 'light',
+    fontFamily: 'Inter_500Medium',
   },
   starsContainer: {
     flexDirection: 'row',
@@ -108,7 +143,7 @@ const styles = StyleSheet.create({
       submitButtonText: {
       color: '#fff',
       fontSize: 16,
-      fontWeight: 'bold',
+      fontFamily: 'Inter_700Bold',
       textAlign: 'center',
     },
     container2: {

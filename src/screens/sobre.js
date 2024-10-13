@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
+
+SplashScreen.preventAutoHideAsync();
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 
 const SobreScreen = ({ navigation }) => {
   const [expandedSections, setExpandedSections] = useState({
+    
     sobreLipas: false,
     quemEsta: false,
     sobreProjeto: false,
@@ -16,6 +32,26 @@ const SobreScreen = ({ navigation }) => {
       [section]: !prevState[section],
     }));
   };
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,7 +138,7 @@ const styles = StyleSheet.create({
     margin: 20,
     textAlign: 'center',
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_700Bold',
     color: '#631C1C',
     paddingVertical: 12,
     paddingTop: 2,
@@ -120,9 +156,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_700Bold',
     color: '#832A25',
     paddingVertical: 1,
+    fontFamily: 'Inter_700Bold',
   },
     sectionContent: {
     fontSize: 16,
@@ -143,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   buttonText: {
-      fontWeight: 'bold',
+      fontFamily: 'Inter_700Bold',
       color: '#631C1C',
       fontSize: 20,
       marginEnd: 10,
@@ -152,12 +189,13 @@ const styles = StyleSheet.create({
     borderColor: '#631C1C',
     borderWidth: 2,
     padding: 10,
-    marginHorizontal:40,
+    marginHorizontal: 50,
     marginVertical: 10,
     alignItems: 'center',
     paddingVertical: 12,
     borderRadius: 30,
-    marginTop: 3,
+    marginTop: 29,
+    
   },
 });
 

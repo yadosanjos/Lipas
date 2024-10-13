@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { View,ScrollView, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { Button, Icon } from "react-native-elements";
 
 const BotaoPanicoScreen = ({ navigation }) =>{

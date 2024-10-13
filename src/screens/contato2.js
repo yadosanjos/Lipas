@@ -1,18 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Para o ícone do escudo
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const InfoScreen = ({navigation}) => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
     <View style={styles.container}>
       {/* Botão de Fechar */}
       <TouchableOpacity onPress={() => navigation.goBack()}></TouchableOpacity>
       <TouchableOpacity style={styles.closeButton}>
-        <Text style={styles.closeText}>X</Text>
+      <AntDesign name="closecircle" size={30} color="#F8E9E0" />
       </TouchableOpacity>
 
       {/* Ícone de escudo */}
-      <Image source={require('../assets/icons/tel-icon.png')} style={styles.icon} />
+      <MaterialCommunityIcons name="phone-message-outline" size={300} color="#F8E9E0" />
 
       {/* Texto de instrução */}
       <Text style={styles.text}>
@@ -58,9 +95,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
     marginBottom: 40,
+    fontFamily: 'Inter_500Medium',
   },
   pagination: {
     flexDirection: 'row',

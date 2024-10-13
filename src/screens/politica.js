@@ -1,7 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
 
 const PrivacyPolicyScreen = ({ navigation }) => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
     <View style={styles.container}>
     <ScrollView>
@@ -30,7 +66,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
 
         <Text style={styles.sectionTitle}>1. Informações coletadas</Text>
       <Text style={styles.paragraph}>•O aplicativo “Lipa’s” coleta informações como nome, endereço de e-mail, número de telefone e localização.{'\n'}
-      <Text style={styles.paragraph}>•Esses dados são usados para fornecer os serviços do aplicativo, como o botão de pânico e a geolocalização em tempo real.{'\n'}
+      <Text style={styles.paragraph}>•Esses dados são usados para fornecer os serviços do aplicativo, como o botão de pânico e a geolocalização em tempo real.
         </Text>
         </Text>
 
@@ -76,7 +112,10 @@ const PrivacyPolicyScreen = ({ navigation }) => {
 
         <Text style={styles.sectionTitle}>9. Contato</Text>
         <Text style={styles.paragraph}>
-        Reservamo-nos o direito de encerrar ou suspender seu acesso ao aplicativo “Lipa’s”, a nosso critério, sem aviso prévio, caso você viole estes termos e condições.
+        Se você tiver alguma dúvida ou preocupação sobre esta Política de Privacidade ou sobre o uso de suas informações pessoais pelo aplicativo "Lipa’s", entre em contato conosco através dos canais de suporte fornecidos no aplicativo.{'\n'}{'\n'}
+
+        <Text style={styles.paragraph}>Ao utilizar o aplicativo "Lipa’s", você concorda com a coleta, uso e compartilhamento de suas informações pessoais conforme descrito nesta Política de Privacidade.
+        </Text>
         </Text>
         <View style={styles.combo}>
        </View>
@@ -121,14 +160,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginVertical: 1,
     marginBottom: 35,
-    
+    fontFamily: 'Inter_400Regular',
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
     color: '#49070A',
     marginHorizontal: 20,
-    textAlign: 'auto'
+    textAlign: 'auto',
+    fontFamily: 'Inter_700Bold',
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -148,21 +187,23 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#631C1C',
     fontSize: 18,
-   textAlign: 'center'
+   textAlign: 'center',
+   fontFamily: 'Inter_600SemiBold',
   },
   instructions: {
     marginTop: 15,
     fontSize: 16,
     marginHorizontal: 20,
     color: '#7C1C1C',
+    fontFamily: 'Inter_400Regular',
   },
   Title: {
-    fontSize: 37,
-    fontWeight: 'bold',
+    fontSize: 35,
     color: '#631C1C',
     textAlign: 'center',
     marginTop: 1,
     borderColor: '#DDC2BB',
+    fontFamily: 'Inter_700Bold',
     },
     borb: {
       width: 70,

@@ -1,7 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
+
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 const TermosCondicoesScreen = ({ navigation }) => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
     <View style={styles.container}>
     <ScrollView>
@@ -115,14 +152,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginVertical: 1,
     marginBottom: 35,
-    
+    fontFamily: 'Inter_400Regular',
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_700Bold',
     color: '#49070A',
     marginHorizontal: 20,
-    textAlign: 'auto'
+    textAlign: 'auto',
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -140,23 +177,24 @@ const styles = StyleSheet.create({
     borderRadius: 19,
   },
   buttonText: {
-    color: '#631C1C',
-    fontSize: 18,
-   textAlign: 'center'
+  color: '#631C1C',
+  fontSize: 18,
+  textAlign: 'center',
+  fontFamily: 'Inter_600SemiBold',
   },
   instructions: {
     marginTop: 15,
     fontSize: 16,
     marginHorizontal: 20,
     color: '#7C1C1C',
+    fontFamily: 'Inter_400Regular',
   },
   Title: {
-    fontSize: 40,
-    fontWeight: 'bold',
+    fontSize: 45,
     color: '#631C1C',
     textAlign: 'center',
-    marginTop: 1,
     borderColor: '#DDC2BB',
+    fontFamily: 'Inter_700Bold',
     },
     borb: {
       width: 70,
