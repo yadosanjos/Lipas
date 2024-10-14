@@ -25,8 +25,10 @@ import ChoqueScreen from "../screens/situChoque";
 import ConvulsoesScreen from "../screens/situConvulsoes";
 import AfogamentosScreen from "../screens/situAfogamentos";
 import HemorragiaScreen from "../screens/situHemorragia";
-
+import EncontroScreen from "../screens/cardEncontro";
 import NumerosScreen from "../screens/cardNumeros";
+import DigitalScreen from "../screens/cardDigital";
+import CyberScreen from "../screens/cardCyber";
 
 import  EmergencyContactsScreen from "../screens/explicacontato1";
 
@@ -127,6 +129,22 @@ function StackNavigator({ onLoginSuccess }) {
         name='Autodefesa' 
         component={AutodefesaScreen} 
         options={{ headerShown: false }}/>
+      
+      <Stack.Screen 
+        name='Encontro' 
+        component={EncontroScreen} 
+        options={{ headerShown: false }}/> 
+
+      <Stack.Screen 
+        name='Digital' 
+        component={DigitalScreen} 
+        options={{ headerShown: false }}/> 
+
+      <Stack.Screen 
+        name='Cyber' 
+        component={CyberScreen} 
+        options={{ headerShown: false }}/> 
+
 
       <Stack.Screen 
         name='Socorros' 
@@ -214,6 +232,11 @@ function StackNavigator({ onLoginSuccess }) {
        <Stack.Screen
         name='usuLipas'
         component={ContatoLipas}
+        options={{headerShown: false}}/>
+
+        <Stack.Screen
+        name='fontsize'
+        component={FontSizeScreen}
         options={{headerShown: false}}/>
 
 
