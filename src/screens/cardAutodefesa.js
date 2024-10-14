@@ -76,7 +76,7 @@ const AutodefesaScreen = ({ navigation }) => {
 
     </ScrollView>
  
-    <TouchableWithoutFeedback onPress={() => navigation.navigate('ManualDeDefesa')}>
+    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
         <Image source = {require('../assets/setacircurlar.png')} style = {styles.botao} />
     </TouchableWithoutFeedback>
 
