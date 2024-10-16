@@ -29,6 +29,8 @@ import EncontroScreen from "../screens/cardEncontro";
 import NumerosScreen from "../screens/cardNumeros";
 import DigitalScreen from "../screens/cardDigital";
 import CyberScreen from "../screens/cardCyber";
+import FurtoScreen from "../screens/cardFurto";
+ 
 
 import  EmergencyContactsScreen from "../screens/explicacontato1";
 
@@ -143,6 +145,11 @@ function StackNavigator({ onLoginSuccess }) {
       <Stack.Screen 
         name='Cyber' 
         component={CyberScreen} 
+        options={{ headerShown: false }}/> 
+
+        <Stack.Screen 
+        name='Furto' 
+        component={FurtoScreen} 
         options={{ headerShown: false }}/> 
 
 
