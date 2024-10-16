@@ -12,9 +12,12 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import * as Location from 'expo-location';
+import MapView, { Marker } from 'react-native-maps';
+
 SplashScreen.preventAutoHideAsync();
 import { DrawerActions } from '@react-navigation/native';
-import { View, StyleSheet, Image, TouchableWithoutFeedback, Text, TouchableOpacity } from 'react-native';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -40,18 +43,93 @@ const HomeScreen = ({ navigation }) => {
     }
     prepare();
   }, []);
+
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [region, setRegion] = useState({
+    latitude: -23.55052, // Valor inicial genérico
+    longitude: -46.633308, // Valor inicial genérico
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permissão para acessar a localização foi negada');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+
+      // Atualiza a região do mapa
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.01, // Ajusta o zoom do mapa
+        longitudeDelta: 0.01,
+      });
+    })();
+  }, []);
+
+  const handleGetLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permissão para acessar a localização foi negada');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+
+    setRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+  };
+
+  let text = 'Esperando pela localização...';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+  }
+
+
   return (
     <View style={styles.container}>
-        <Image source={require('../assets/borboleta.png')} style={styles.borboleta} />
+      <Button title="Atualizar Localização" onPress={handleGetLocation} />
+      <MapView
+        style={styles.map}
+        region={region}
+        showsUserLocation={true}
+        onRegionChangeComplete={(region) => setRegion(region)}
+      >
+        {location && (
+          <Marker
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+            title="Você está aqui"
+          />
+        )}
+      </MapView>
+
       <View style={styles.container2}>
 
       <Text style={styles.texto}> Você ainda não tem contatos de emergência Lipa’s! Convide pessoas de confiança usuários Lipa’s  </Text>
        <TouchableOpacity style={styles.convida} onPress={() => navigation.navigate('BotaoPanico')}> 
         <Text style={styles.textconvida}> Convidar </Text>
        </TouchableOpacity>
+       </View>
 
       </View>
-    </View>
   );
 };
 
@@ -76,6 +154,11 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
+  },
+  text: {
+    margin: 10,
+    textAlign: 'center',
+    color: '#04c4e1',
   },
   container2: {
     backgroundColor: '#FFEDE3',
