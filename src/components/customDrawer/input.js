@@ -67,7 +67,7 @@ const CustomDrawer = props => {
         <Image source={require('../../assets/imagem/juju-profile.jpeg')} style={styles.user} />
         <View style={styles.textContainer}>
           <Text style={styles.optionText}>Julia Cabral</Text>
-          <Text style={styles.optionStatus}>#0001</Text>
+          <Text style={styles.optionStatus}>juliacabral@gmail.com</Text>
         </View>
 </View>
 </View>
