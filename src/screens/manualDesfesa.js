@@ -1,11 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
+import {
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+} from "@expo-google-fonts/inter";
+import {
+  DMSerifDisplay_400Regular,
+  DMSerifDisplay_400Regular_Italic,
+} from '@expo-google-fonts/dm-serif-display';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
 import { View, StyleSheet, Image, Dimensions, ScrollView, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
 
 
 const ManualDefesaScreen = ({ navigation }) => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          Inter_700Bold,
+          Inter_500Medium,
+          Inter_600SemiBold,
+          Inter_400Regular,
+          DMSerifDisplay_400Regular,
+          DMSerifDisplay_400Regular_Italic,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
   return (
     <View style={styles.container}>
-      <Image source = {require('../assets/titulo_manual.png')} style = {styles.titulo} />
+      <Text style={styles.Title}>Manuais Lipa´s</Text>
       <Image source = {require('../assets/linha.png')} style={styles.linha} />
 
       <ScrollView>
@@ -85,7 +121,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
   },
   linha:{
-    marginTop: height * 0.035,
+    marginTop: height * 0.01,
   },
   combo: {
     flexDirection: 'row', // Alinha os itens na horizontal
@@ -106,6 +142,13 @@ const styles = StyleSheet.create({
   espaco: {
     width: '100%',
     height: 100,
+  },
+  Title: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
   },
 });
 
