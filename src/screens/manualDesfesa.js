@@ -28,17 +28,20 @@ const ManualDefesaScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.combo}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Digital')}>
         <Image source = {require('../assets/cards/digital.png')} style={styles.image2} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Encontro')}>
         <Image source = {require('../assets/cards/encontro.png')} style={styles.image2} />
         </TouchableOpacity>
         </View>
 
         <View style={styles.combo}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Cyber')}>
         <Image source = {require('../assets/cards/cyber.png')} style={styles.image2} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Furto')}>
+        <Image source = {require('../assets/cards/furto.png')} style={styles.image2} />
         </TouchableOpacity>
         </View>
 

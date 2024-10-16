@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, Image, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import { View, Image, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import { Input, CheckBox }  from 'react-native-elements';
 
 export default function CadastroScreen({ navigation }){
@@ -19,7 +19,9 @@ export default function CadastroScreen({ navigation }){
     <View style={styles.container}>
     <Image source = {require('../assets/borboleta.png')} style = {styles.borboleta} />
     <View style={styles.container2}>
-        <Image source = {require('../assets/titulo_cadastro.png')} style = {styles.titulo} />
+    <ScrollView>
+      <View style={styles.scroll}>
+    <Text style={styles.Title}>Cadastro</Text>
         <Text style={styles.subtitulo}> Crie a sua conta </Text>
     <View style = {styles.nome}>
       <Input type="text" style={styles.input}  placeholder="Nome"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'user', color:'#49070A98'}} onChangeText={value => setName(value)} />
@@ -38,6 +40,9 @@ export default function CadastroScreen({ navigation }){
        <Text style={styles.continuar}> Continuar </Text>
       </TouchableOpacity>
       <Text onPress={() => navigation.navigate('Login')} style={styles.entrar}> Já tem uma conta? Entrar </Text>
+      </View>
+      </ScrollView>
+      <View style={styles.espaco} />
     </View>
     </View>
   );
@@ -149,5 +154,23 @@ const styles = StyleSheet.create({
     color:'#112947',
     textDecorationLine: 'underline',
     marginTop: 8,
+  }, 
+  scroll:{
+    width: '100%',
+    height: 900,
+    backgroundColor: '#FFEDE3',
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+   Title: {
+    fontSize: 65,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+  },
+  espaco: {
+    width: '100%',
+    height: 100,
   },
 });
