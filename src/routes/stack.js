@@ -5,7 +5,7 @@ import MariaFelipaScreen from "../screens/mariaFelipa";
 import CadastroScreen from "../screens/cadastro";
 import EsqueceuSenhaScreen from "../screens/esqueceuSenha";
 import BotaoPanicoScreen from "../screens/botaoPanico";
-import ManualDeDefesaScreen from "../screens/manualDesfesa"
+import ManualDeDefesaScreen from "../screens/manualDefesa"
 import DireitoScreen from "../screens/cardDireito";
 import LeiMariaScreen from "../screens/leiMaria";
 import LeiCarolinaScreen from "../screens/leiCarolina";
@@ -47,6 +47,8 @@ import Cont3Screen from "../screens/explicacontato3";
 import EmergencyContactTypeScreen from "../screens/contato";
 import ContatoComum from "../screens/usucomum";
 import ContatoLipas from "../screens/usuLipas";
+import TamanhoExibicaoScreen from "../screens/exibicao";
+import ColorCorrectionScreen from "../screens/cor";
 const Stack = createNativeStackNavigator();
 
 function StackNavigator({ onLoginSuccess }) {
@@ -245,9 +247,18 @@ function StackNavigator({ onLoginSuccess }) {
         name='fontsize'
         component={FontSizeScreen}
         options={{headerShown: false}}/>
-
-
-    </Stack.Navigator>
+ 
+       <Stack.Screen
+        name='exibicao'
+        component={TamanhoExibicaoScreen}
+        options={{headerShown: false}}/>
+   
+      <Stack.Screen
+      name='cor'
+      component={ColorCorrectionScreen}
+      options={{headerShown: false}}/>
+      
+       </Stack.Navigator>
   );
 }
 
