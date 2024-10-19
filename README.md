@@ -30,7 +30,7 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    npm install react-native-gesture-handler react-native-reanimated
 
 
-- APIs
+- APIs:
    npx expo install expo-location
    npx expo install react-native-maps
 
