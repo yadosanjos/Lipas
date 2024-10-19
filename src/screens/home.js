@@ -122,7 +122,6 @@ const HomeScreen = ({ navigation }) => {
       </MapView>
 
       <View style={styles.container2}>
-
       <Text style={styles.texto}> Você ainda não tem contatos de emergência Lipa’s! Convide pessoas de confiança usuários Lipa’s  </Text>
        <TouchableOpacity style={styles.convida} onPress={() => navigation.navigate('BotaoPanico')}> 
         <Text style={styles.textconvida}> Convidar </Text>
@@ -169,6 +168,7 @@ const styles = StyleSheet.create({
     marginTop: 420,
     borderRadius: 50,
     position: 'absolute',
+    
   },
   texto: {
     width: 320,

@@ -25,13 +25,7 @@ const ContatoComum = ({ navigation }) => {
   const [secondaryPhone, setSecondaryPhone] = useState('');
 
   const handleSubmit = () => {
-    // Validação simples
-    if (!name || !email || !primaryPhone) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
-      return;
-    }
-    // Lógica para envio dos dados
-    Alert.alert('Sucesso', 'Contato de emergência cadastrado!');
+    Alert.alert('Obrigado', 'pelo seu feedback!');
   };
   const [appIsReady, setAppIsReady] = useState(false);
 

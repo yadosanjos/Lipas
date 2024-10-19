@@ -157,25 +157,21 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   section: {
-    marginHorizontal: 11,
-    marginVertical: 8,
+    marginHorizontal: 12,
+    marginVertical: 1,
     borderBottomWidth: 1,
     borderColor: '#DDC2BB',
-    paddingVertical: 4,
+    paddingVertical: 5,
   },
   sectionTitle: {
     fontSize: 24,
     fontFamily: 'Inter_700Bold',
     color: '#832A25',
-    paddingVertical: 1,
-    fontFamily: 'Inter_700Bold',
   },
     sectionContent: {
     fontSize: 16,
     color: '#631C1C',
-    paddingVertical: 1,
-    marginVertical: 1,
-    marginLeft: 12,
+    marginLeft: 16,
   },
   termbutton: {
     borderColor: '#631C1C',
@@ -193,7 +189,7 @@ const styles = StyleSheet.create({
       fontFamily: 'Inter_700Bold',
       color: '#631C1C',
       fontSize: 20,
-      marginEnd: 10,
+      marginEnd: 1,
   },
   privacibutton:{
     borderColor: '#631C1C',
@@ -205,7 +201,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 30,
     marginTop: 29,
-    
   },
   arrow: {
     fontSize: 40,
@@ -217,7 +212,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     marginBottom: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 1,
   },

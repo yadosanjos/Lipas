@@ -15,15 +15,37 @@ import * as Font from "expo-font";
 
 SplashScreen.preventAutoHideAsync();
 
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal, TouchableWithoutFeedback, Button  } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Para os ícones no rodapé e avaliação
 
 const FeedbackScreen = () => {
+  const [appIsReady, setAppIsReady] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [rating, setRating] = useState(0);
-  const [appIsReady, setAppIsReady] = useState(false);
-  const handleRating = (value) => {
-    setRating(value);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSendFeedback = () => {
+    if (feedback.trim() === '' || rating === 0) {
+      setModalVisible(true);
+    } else {
+      setModalVisible(true);
+      setFeedback(''); // Limpa o campo de feedback
+      setRating(0); // Reseta as estrelas
+    }
+  };
+
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <TouchableOpacity key={i} onPress={() => setRating(i)}>
+          <Text style={[styles.star, { color: i <= rating ? '#7C1C1C' : '#CCCCCC',}]}>
+            ★
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+    return stars;
   };
   useEffect(() => {
     async function prepare() {
@@ -52,35 +74,46 @@ const FeedbackScreen = () => {
         Escreva na caixa abaixo sua experiência, problemas, sugestões de melhoria ou qualquer informação que considerar relevante para melhorar nossos serviços e tornar o Lipa's melhor.
       </Text>
 
-      {/* Caixa de texto para o feedback */}
       <TextInput
         style={styles.textInput}
-        placeholder="Digite aqui..."
+        placeholder="Digite seu feedback aqui"
         value={feedback}
-        onChangeText={(text) => setFeedback(text)}
+        onChangeText={setFeedback}
         multiline
-        numberOfLines={4}
       />
 
       {/* Seção de Avaliação */}
       <Text style={styles.ratingTitle}>NOS AVALIE!</Text>
       <Text style={styles.ratingSubtitle}>Deixe a sua avaliação da sua experiência no Lipa's</Text>
       
-      {/* Estrelas de Avaliação */}
       <View style={styles.starsContainer}>
-        {[1, 2, 3, 4, 5].map((star) => (
-          <TouchableOpacity key={star} onPress={() => handleRating(star)}>
-            <Ionicons
-              name={star <= rating ? 'star' : 'star-outline'}
-              size={32}
-              color={star <= rating ? '#7C1C1C' : 'gray'}
-            />
-          </TouchableOpacity>
-        ))}
+        {renderStars()}
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContent}>
+            <Image source={require('../assets/icon/borb 2-icon.png')} style={styles.borb} />
+              {feedback.trim() === '' || rating === 0 ? (
+                <Text style={styles.modalText}>Por favor, insira feedback e uma nota.</Text>
+              ) : (
+                <Text style={styles.Text}>
+                  Obrigado pelo seu feedback!{"\n"}Nota: {rating}{"\n"}Comentário: {feedback}
+                </Text>
+              )}
+              <Button title="Fechar" onPress={() => setModalVisible(false)} />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
 
       {/* Botão de Enviar */}
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSendFeedback}>
         <Text style={styles.submitButtonText}>Enviar</Text>
       </TouchableOpacity>
       </View>
@@ -132,13 +165,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 10,
   },
+  star: {
+    fontSize: 30,
+    marginRight: 10,
+  },
   submitButton: {
     backgroundColor: '#631C1C',
     paddingVertical: 11,
     borderRadius: 30,
     alignItems: 'center',
     marginHorizontal: 105,
-    marginTop: 45,
+    marginTop: 36,
     },
       submitButtonText: {
       color: '#fff',
@@ -155,6 +192,59 @@ const styles = StyleSheet.create({
       marginTop: 420,
       borderRadius: 50,
       position: 'absolute',
+    },
+    modalBackground: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      width: 300,
+      padding: 15,
+      backgroundColor: '#F5E4E1',
+      borderRadius: 50,
+      alignItems: 'center',
+      borderColor: '#7C1C1C',
+      borderWidth: 2,
+    },
+    modalText: {
+      fontSize: 24,
+      textAlign: 'center',
+      marginBottom: 20,
+      fontFamily: 'Inter_700Bold',
+      color: '#640F14',
+    },
+    borb: {
+      width: 150,
+      height: 140,
+      marginVertical: 20,
+      marginRight: 20,
+      alignItems: 'center',
+    },
+    Text: {
+      fontSize: 23,
+      textAlign: 'center',
+      fontFamily: 'Inter_700Bold',
+      color: '#640F14',
+    },
+    button:{
+      borderColor: '#631C1C',
+      borderWidth: 1,
+      marginHorizontal: 20,
+      borderRadius: 5,
+      marginHorizontal: 130,
+      paddingVertical: 22,
+      paddingHorizontal: 17,
+      borderRadius: 19,
+    },
+    close:{
+      backgroundColor: '#49070A',
+      paddingVertical: 3,
+      paddingRight: 22,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginTop: 6,
     },
 });
 export default FeedbackScreen;

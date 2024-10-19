@@ -43,7 +43,7 @@ const TermosCondicoesScreen = ({ navigation }) => {
     <View style={styles.container}>
     <ScrollView>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image source={require('../assets/icons/borb-icon.png')} style={styles.borb} />
+              <Image source={require('../assets/icon/borb-icon.png')} style={styles.borb} />
               </TouchableOpacity>
       <View style={styles.container2}>
       </View>
