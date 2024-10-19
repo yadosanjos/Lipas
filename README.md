@@ -23,6 +23,7 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    npm install react-native-gesture-handler
 
    npm install @react-navigation/bottom-tabs
+   
    npm install @react-navigation/drawer
 
    npx expo install react-native-gesture-handler react-native-reanimated 
