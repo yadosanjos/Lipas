@@ -145,3 +145,4 @@ exitButtonText: {
 },
 });
 export default CustomDrawer;
+
