@@ -112,7 +112,7 @@ const SobreScreen = ({ navigation }) => {
           
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.privacibutton} onPress={() => navigation.navigate('Politica')}>
+        <TouchableOpacity style={styles.privacibutton} onPress={() => navigation.navigate('Termos')}>
           <Text style={styles.buttonText}>Política de Privacidade</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -157,21 +157,25 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   section: {
-    marginHorizontal: 12,
-    marginVertical: 1,
+    marginHorizontal: 11,
+    marginVertical: 8,
     borderBottomWidth: 1,
     borderColor: '#DDC2BB',
-    paddingVertical: 5,
+    paddingVertical: 4,
   },
   sectionTitle: {
     fontSize: 24,
     fontFamily: 'Inter_700Bold',
     color: '#832A25',
+    paddingVertical: 1,
+    fontFamily: 'Inter_700Bold',
   },
     sectionContent: {
     fontSize: 16,
     color: '#631C1C',
-    marginLeft: 16,
+    paddingVertical: 1,
+    marginVertical: 1,
+    marginLeft: 12,
   },
   termbutton: {
     borderColor: '#631C1C',
@@ -189,7 +193,7 @@ const styles = StyleSheet.create({
       fontFamily: 'Inter_700Bold',
       color: '#631C1C',
       fontSize: 20,
-      marginEnd: 1,
+      marginEnd: 10,
   },
   privacibutton:{
     borderColor: '#631C1C',
@@ -201,6 +205,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 30,
     marginTop: 29,
+    
   },
   arrow: {
     fontSize: 40,
@@ -212,6 +217,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     marginBottom: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 1,
   },
