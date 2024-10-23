@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons';
 
 import HomeScreen from '../screens/home';
 import BotaoPanicoScreen from "../screens/botaoPanico";
-import ManualDeDefesaScreen from '../screens/manualDesfesa';
+import ManualDeDefesaScreen from '../screens/manualDefesa';
 
 import ButtonPanico from '../components/customTab/buttonpanico';
 
