@@ -5,7 +5,7 @@
     "slug": "lipas",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "your-app-scheme",
     "splash": {
