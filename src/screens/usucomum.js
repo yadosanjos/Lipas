@@ -136,12 +136,12 @@ const styles = StyleSheet.create({
   },
   navbar: {
     width: '100%', // Faz a navbar ocupar toda a largura
-    height: 75, // Ajuste a altura se necessário
+    height: 70, // Ajuste a altura se necessário
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#640F14',
-    paddingHorizontal: 9,
+    backgroundColor: '#49070A',
+    paddingHorizontal: 8,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
   },
@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_400Regular',
     marginStart: 32,
     marginVertical: 30,
-
   },
   inputContainer: {
     flexDirection: 'row',

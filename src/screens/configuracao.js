@@ -68,17 +68,6 @@ const handleExit = () => {
       </View>
 
       <View style={styles.settingItem}>
-      <FontAwesome name="text-width" size={30} color="#49070A" />
-        <View style={styles.textContainer}>
-          <Text style={styles.optionText}>Tamanho da exibição</Text>
-          <Text style={styles.optionStatus}>Padrão</Text>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('exibicao')}>
-        <Text style={styles.arrow}>›</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.settingItem}>
       <MaterialCommunityIcons name="border-color" size={30} color="#49070A" />
         <View style={styles.textContainer}>
           <Text style={styles.optionText}>Correção de cor</Text>

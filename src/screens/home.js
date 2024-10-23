@@ -99,8 +99,6 @@ const HomeScreen = ({ navigation }) => {
   } else if (location) {
     text = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
   }
-
-
   return (
     <View style={styles.container}>
       <Button title="Atualizar Localização" onPress={handleGetLocation} />

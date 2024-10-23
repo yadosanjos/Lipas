@@ -1,55 +1,17 @@
   import React, { useState, useEffect} from 'react';
-  import { launchImageLibrary } from 'react-native-image-picker';
-  import {
-    Inter_700Bold,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_400Regular,
-  } from "@expo-google-fonts/inter";
-  import {
-    DMSerifDisplay_400Regular,
-    DMSerifDisplay_400Regular_Italic,
-  } from '@expo-google-fonts/dm-serif-display';
-  import * as SplashScreen from "expo-splash-screen";
-  import * as Font from "expo-font";
-  
-  SplashScreen.preventAutoHideAsync();
-
-  import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, Modal } from 'react-native';
-  import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-  import FontAwesome from 'react-native-vector-icons/FontAwesome'  
+  import * as ImagePicker from 'expo-image-picker';
+  import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, Modal, Button } from 'react-native';
+  import FontAwesome5 from 'react-native-vector-icons/FontAwesome5' 
   
   export default function ProfileScreen() {
-  
+    const [image, setImage] = useState(null);
     const [name, setName] = useState('Julia Cabral');
     const [email, setEmail] = useState('julia.cabral@gmail.com');
     const [phone, setPhone] = useState('(11) 98765-4321');
     const [password, setPassword] = useState('********');
-    const [appIsReady, setAppIsReady] = useState(false);
-    const [photo, setPhoto] = useState(null); // Estado para armazenar a foto
     const [modalVisible, setModalVisible] = useState(false); // Modal para opções de foto
     const [confirmModalVisible, setConfirmModalVisible] = useState(false); // Modal de confirmação de salvamento
 
-    useEffect(() => {
-      async function prepare() {
-        try {
-          await Font.loadAsync({
-            Inter_700Bold,
-            Inter_500Medium,
-            Inter_600SemiBold,
-            Inter_400Regular,
-            DMSerifDisplay_400Regular,
-            DMSerifDisplay_400Regular_Italic,
-          });
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-        } catch (e) {
-          console.warn(e);
-        } finally {
-          setAppIsReady(true);
-        }
-      }
-      prepare();
-    }, []);
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingEmail, setIsEditingEmail] = useState(false);
     const [isEditingPhone, setIsEditingPhone] = useState(false);
@@ -98,63 +60,32 @@
       const regex = /^\(\d{2}\) \d{5}-\d{4}$/;
       return regex.test(phone);
     };
-    const selectPhoto = () => {
-      const options = {
-        mediaType: 'photo',
-      };
-    
-      launchImageLibrary(options, (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.errorCode) {
-          console.log('ImagePicker Error: ', response.errorMessage);
-        } else if (response.assets && response.assets.length > 0) {
-          const selectedImage = response.assets[0].uri; // Acessa a URI da imagem selecionada
-          setPhoto(selectedImage); // Salva a foto no estado
-          setModalVisible(false); // Fecha o modal após a seleção da foto
-        }
+
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
       });
-    };
-    const removePhoto = () => {
-      setPhoto(null);
-      setModalVisible(false); // Fecha o modal
-    };
-        
-    return (
   
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    };
+    return (
       <View style={styles.container}>
        <Text style={styles.header}>Sua Conta</Text>
-      {photo ? (
-        <Image source={{ uri: photo }} style={styles.photo} />
-      ) : (
-        <View style={styles.placeholder}>
-          <Text style={styles.textphoto}>Nenhuma foto selecionada</Text>
-        </View>
-      )}
-  
+      {image && <Image source={{ uri: image }} style={styles.image} />}
+
       {/* Botão para abrir o modal */}
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.editPhotoButton}>
+      <TouchableOpacity onPress={pickImage} style={styles.editPhotoButton}>
         <Text style={styles.editPhotoText}>Editar Foto</Text>
       </TouchableOpacity>
-  
-      {/* Modal de opções */}
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity onPress={removePhoto} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>Remover foto</Text>
-            </TouchableOpacity>
-  
-            <TouchableOpacity onPress={selectPhoto} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>Alterar foto</Text>
-            </TouchableOpacity>
-  
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>Cancelar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+
   
   <ScrollView>
         <View style={styles.infoContainer}>
@@ -364,10 +295,10 @@
       color: '#FFE4E1',
       fontFamily: 'Inter_600SemiBold',
     },
-    placeholder: {
-      width: 114,
-      height: 114,
-      marginHorizontal: 125,
+    image: {
+      width: 165,
+      height: 165,
+      marginHorizontal: 109,
       borderRadius: 100,
       justifyContent: 'center',
       alignItems: 'center',
@@ -378,23 +309,50 @@
       flex: 1,
       justifyContent: 'flex-end',
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      
     },
     modalContent: {
       backgroundColor: '#FFE4E1',
-      padding: 10,
+      padding: 12,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
     },
     modalButton: {
-      paddingVertical: 20,
-      borderBottomWidth: 1,
-      borderColor: '#DDC2BB',
+      backgroundColor: '#49070A',
+      borderWidth: 1,
+      padding: 111,
+      marginVertical: 1,
       alignItems: 'center',
+      paddingVertical: 17,
+      borderRadius: 30,
     },
+    modalButton2:{
+      borderWidth: 1,
+      padding: 120,
+      marginVertical: 17,
+      alignItems: 'center',
+      paddingVertical: 17,
+      borderRadius: 30,
+      borderColor: '#49070A',
+    },
+    modalButton3:{
+    borderWidth: 1,
+    padding: 130,
+    marginVertical: 1,
+    alignItems: 'center',
+    paddingVertical:17,
+    borderRadius: 30,
+    borderColor: '#49070A',
+},
     modalButtonText: {
       color: '#49070A',
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: 'Inter_600SemiBold',
+    },
+    modalButtonText1:{
+    color: '#FFEDE3',
+    fontSize: 18,
+    fontFamily: 'Inter_600SemiBold',   
     },
     modalBackground: {
       flex: 1,
@@ -404,12 +362,12 @@
     },
     modalContent: {
       width: 412,
-      padding: 15,
+      padding: 30,
       backgroundColor: '#F5E4E1',
-      borderRadius: 5,
+      borderRadius: 1,
       alignItems: 'center',
-      borderColor: '#7C1C1C',
-      borderWidth: 2,
+      borderTopLeftRadius: 50,
+      borderTopRightRadius: 50,
     },
     modalText: {
       fontSize: 24,
