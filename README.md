@@ -21,6 +21,8 @@ INSTALAÇÕES NECESSÁRIAS
 
    npm i @react-native-async-storage/async-storage
 
+   npm install firebase@10.12.4 --save
+
 
 Se caso não funcionar o comando de instalar as dependências, abaixo vai estar todo o conteúdo que foi importado:
 
@@ -39,6 +41,12 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    npx expo install react-native-gesture-handler react-native-reanimated 
    - OU -
    npm install react-native-gesture-handler react-native-reanimated
+
+   npm install react-native-tab-view 
+
+   expo install react-native-pager-view
+    - OU -
+   npm install react-native-pager-view
 
 
 - APIs:
