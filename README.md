@@ -2,6 +2,8 @@ INSTALAÇÕES NECESSÁRIAS
 
 - Instalar bibliotecas de dependências: 
 
+    npm install -g expo-cli
+
     npm install
 
 
