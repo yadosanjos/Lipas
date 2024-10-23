@@ -26,6 +26,13 @@ INSTALAÇÕES NECESSÁRIAS
    npm install firebase@10.12.4 --save
 
 
+- APIs:
+
+   npx expo install expo-location
+
+   npx expo install react-native-maps
+
+
 Se caso não funcionar o comando de instalar as dependências, abaixo vai estar todo o conteúdo que foi importado:
 
 - Navegação:
@@ -51,12 +58,6 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    npm install react-native-pager-view
 
 
-- APIs:
-
-   npx expo install expo-location
-
-   npx expo install react-native-maps
-
 
 - Outros
 
@@ -75,3 +76,5 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    npx expo install expo-image-picker
 
    npx install expo-media-library
+
+   npx expo install @react-native-community/slider
