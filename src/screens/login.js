@@ -15,10 +15,11 @@ import * as Font from "expo-font";
 SplashScreen.preventAutoHideAsync();
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from "react-native";
 import { Input } from "react-native-elements";
-
 import { auth } from '../services/firebase/conf';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
+// api fake localhost
+const usersData = require("../services/api.json");
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");

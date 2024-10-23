@@ -3,49 +3,28 @@ import { useState } from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import { Input, CheckBox }  from 'react-native-elements';
 
-import { auth, db } from '../services/firebase/conf';
-import { doc, setDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-
-
 export default function CadastroScreen({ navigation }){
-  const [name, setName] = useState('');
-  const [tel, setTel] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
 
-  const handleSignUp = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const userData = { email, name, tel, password };
+  const [text, setName] = useState(null);
+  const [tel, setTel] = useState(null);
+  const [email, setEmail] = useState(null);
 
-      await setDoc(doc(db, "Usuário", user.uid), userData);
-      navigation.replace("Login")
-      setMessage('Conta criada com sucesso');
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        setMessage('Endereço de email já existe');
-      } else {
-        setMessage('Não é possível criar usuário');
-      }
-      console.error("Error adding document: ", error);
-    }
-  };
   const [checked, setChecked] = useState(false);
+
+  const continuar = () => {
+    navigation.navigate('')
+  };
 
   return (
     <View style={styles.container}>
     <Image source = {require('../assets/borboleta.png')} style = {styles.borboleta} />
     <View style={styles.container2}>
-    
     <ScrollView>
-     <View style={styles.scroll}>
-       <Text style = {styles.Title}> Cadastro </Text>
+      <View style={styles.scroll}>
+    <Text style={styles.Title}>Cadastro</Text>
         <Text style={styles.subtitulo}> Crie a sua conta </Text>
     <View style = {styles.nome}>
-      <Input type="name" style={styles.input}  placeholder="Nome"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'user', color:'#49070A98'}} onChangeText={value => setName(value)} />
+      <Input type="text" style={styles.input}  placeholder="Nome"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'user', color:'#49070A98'}} onChangeText={value => setName(value)} />
     </View>
     <View style = {styles.celular}>
       <Input type="tel" style={styles.input} placeholder="Celular"  placeholderTextColor="#49070A98"   leftIcon={{ type: 'font-awesome', name: 'phone', color:'#49070A98'}}  onChangeText={value => setTel(value)}  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"/>
@@ -53,22 +32,17 @@ export default function CadastroScreen({ navigation }){
     <View style = {styles.email}>
       <Input style={styles.input}  placeholder="E-mail"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'envelope', color:'#49070A98'}} onChangeText={value => setEmail(value)}  keyboardType='email-address'  />
     </View>
-    <View style={styles.senha}>
-      <Input style={styles.input} placeholder="Senha" placeholderTextColor="#49070A98" leftIcon={{ type: "font-awesome", name: "lock", color: "#49070A98" }} onChangeText={(value) => setPassword(value)} secureTextEntry={true} />
-    </View>
     <Image source = {require('../assets/linha.png')} style={styles.linha} />
     <View>
       <CheckBox title='Declaro que li e concordo com os Termos e Condições.' checked={checked} onPress={() => setChecked(!checked)} containerStyle={styles.checkboxContainer} textStyle={styles.checkboxText}  checkedColor='#49070A' uncheckedColor='#49070A80'/>
     </View>
-      <TouchableOpacity  style={styles.bottoncadastrar} onPress={handleSignUp}>
-       <Text style={styles.cadastrar}> Cadastrar </Text>
+      <TouchableOpacity onPress={continuar}  style={styles.bottoncontinuar} >
+       <Text style={styles.continuar}> Continuar </Text>
       </TouchableOpacity>
-      {message ? <Text>{message}</Text> : null}
-      <Text onPress={() => navigate.navigation("Login")} style={styles.entrar}> Já tem uma conta? Entrar </Text>
+      <Text onPress={() => navigation.navigate('Login')} style={styles.entrar}> Já tem uma conta? Entrar </Text>
       </View>
-    </ScrollView>
-    
-    <View style={styles.espaco}></View>
+      </ScrollView>
+      <View style={styles.espaco} />
     </View>
     </View>
   );
@@ -95,25 +69,18 @@ const styles = StyleSheet.create({
     height: 900,
     backgroundColor: '#FFEDE3',
     borderRadius: 30,
+    alignItems: 'center',
   },
-  Title: {
-    fontSize: 65,
-    fontFamily: 'DMSerifDisplay_400Regular',
-    color: '#631C1C',
-    textAlign: 'center',
-    paddingTop: 12,
+  titulo: {
+   marginTop: 30,
+   width: 255,
+   height: 35,
   },
   subtitulo:{
     fontSize: 18,    
     fontFamily: 'Inter_500Medium',
     color:'#49070A',
-  },
-  scroll:{
-    width: '100%',
-    height: 900,
-    backgroundColor: '#FFEDE3',
-    borderRadius: 30,
-    alignItems: 'center',
+    marginTop: 10,
   },
   input:{
     fontSize: 20,    
@@ -149,16 +116,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
   },
-  senha: {
-    backgroundColor: "#FFFFFF",
-    width: 350,
-    height: 80,
-    marginTop: 30,
-    borderWidth: 1,
-    borderColor: "#49070A",
-    borderRadius: 20,
-    padding: 10,
-  },
   linha:{
     width: 335,
     height: 1.5,
@@ -175,7 +132,7 @@ const styles = StyleSheet.create({
     color: '#49070A80',
     fontFamily: 'Inter_400Regular',
   },
-  bottoncadastrar:{
+  bottoncontinuar:{
     marginTop: 10,
     width: 250,
     height: 70,
@@ -185,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cadastrar:{
+  continuar:{
     color:'#FFEDE3',
     textAlign: 'center',
     fontSize: 25,
@@ -197,9 +154,23 @@ const styles = StyleSheet.create({
     color:'#112947',
     textDecorationLine: 'underline',
     marginTop: 8,
+  }, 
+  scroll:{
+    width: '100%',
+    height: 900,
+    backgroundColor: '#FFEDE3',
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+   Title: {
+    fontSize: 65,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
   },
   espaco: {
     width: '100%',
-    height: 250,
+    height: 100,
   },
 });

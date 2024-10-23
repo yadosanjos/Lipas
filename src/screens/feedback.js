@@ -98,7 +98,7 @@ const FeedbackScreen = () => {
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <View style={styles.modalBackground}>
             <View style={styles.modalContent}>
-            <Image source={require('../assets/borbo.png')} style={styles.borb} />
+            <Image source={require('../assets/icon/borb 2-icon.png')} style={styles.borb} />
               {feedback.trim() === '' || rating === 0 ? (
                 <Text style={styles.modalText}>Por favor, insira feedback e uma nota.</Text>
               ) : (
