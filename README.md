@@ -71,3 +71,7 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    npm i @react-native-vector-icons/ant-design
 
    npm i @react-native-vector-icons/simple-line-icons
+
+   npx expo install expo-image-picker
+
+   npx install expo-media-library
