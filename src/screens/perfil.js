@@ -1,136 +1,164 @@
-  import React, { useState, useEffect} from 'react';
-  import * as ImagePicker from 'expo-image-picker';
-  import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, Modal, Button } from 'react-native';
-  import FontAwesome5 from 'react-native-vector-icons/FontAwesome5' 
-  
-  export default function ProfileScreen() {
-    const [image, setImage] = useState(null);
-    const [name, setName] = useState('Julia Cabral');
-    const [email, setEmail] = useState('julia.cabral@gmail.com');
-    const [phone, setPhone] = useState('(11) 98765-4321');
-    const [password, setPassword] = useState('********');
-    const [modalVisible, setModalVisible] = useState(false); // Modal para opções de foto
-    const [confirmModalVisible, setConfirmModalVisible] = useState(false); // Modal de confirmação de salvamento
+import React, { useState, useEffect } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, Modal } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { auth, db } from '../services/firebase/conf';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
-    const [isEditingName, setIsEditingName] = useState(false);
-    const [isEditingEmail, setIsEditingEmail] = useState(false);
-    const [isEditingPhone, setIsEditingPhone] = useState(false);
-    const [isEditingPassword, setIsEditingPassword] = useState(false);
-  
-    // Estados temporários para armazenar o valor enquanto edita
-    const [newName, setNewName] = useState(name);
-    const [newEmail, setNewEmail] = useState(email);
-    const [newPhone, setNewPhone] = useState(phone);
-    const [newPassword, setNewPassword] = useState('');
-  
-    // Funções para alternar entre visualização e edição
-    const toggleEditName = () => setIsEditingName(!isEditingName);
-    const toggleEditEmail = () => setIsEditingEmail(!isEditingEmail);
-    const toggleEditPhone = () => setIsEditingPhone(!isEditingPhone);
-    const toggleEditPassword = () => setIsEditingPassword(!isEditingPassword);
-  
-    const handleSave = () => {
-      if (validateEmail(newEmail) && validatePhone(newPhone)) {
+export default function ProfileScreen() {
+  const [image, setImage] = useState(null);
+  const [userName, setName] = useState('');
+  const [userEmail, setEmail] = useState('');
+  const [userNumCel, setPhone] = useState('');
+  const [userSenha, setSenha] = useState('');
+  const [modalVisible, setModalVisible] = useState(false); // Modal para opções de foto
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // Modal de confirmação de salvamento
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingPhone, setIsEditingPhone] = useState(false);
+  const [isEditingSenha, setIsEditingSenha] = useState(false);
+
+  // Estados temporários para armazenar o valor enquanto edita
+  const [newName, setNewName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPhone, setNewPhone] = useState('');
+  const [newSenha, setNewSenha] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const docRef = doc(db, "Usuário", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setName(userData.userName);
+            setEmail(userData.userEmail);
+            setPhone(userData.userNumCel);
+            setSenha(userData.userSenha);
+            setNewName(userData.userName);
+            setNewEmail(userData.userEmail);
+            setNewPhone(userData.userNumCel);
+          } else {
+            console.log("No such document!");
+          }
+        } catch (error) {
+          console.error("Erro ao buscar informações: ", error);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const toggleEditName = () => setIsEditingName(!isEditingName);
+  const toggleEditEmail = () => setIsEditingEmail(!isEditingEmail);
+  const toggleEditPhone = () => setIsEditingPhone(!isEditingPhone);
+  const toggleEditSenha = () => setIsEditingSenha(!isEditingSenha);
+
+  const handleSave = async () => {
+    if (validateEmail(newEmail) && validatePhone(newPhone)) {
+      try {
+        const user = auth.currentUser;
+        const userDocRef = doc(db, "Usuário", user.uid);
+        await setDoc(userDocRef, {
+          userName: newName,
+          userEmail: newEmail,
+          userNumCel: newPhone,
+          userSenha: newSenha || userSenha, // Mantém a senha antiga se nenhuma nova senha for fornecida
+        }, { merge: true }); // Use merge to update only the fields that have changed
+        console.log('Informações salvas com sucesso.');
         setName(newName);
         setEmail(newEmail);
         setPhone(newPhone);
-        if (newPassword) {
-          setPassword('********'); // Reseta a senha para esconder após salvar
-        }
-        // Exibe o modal de confirmação de salvamento
+        setSenha(newSenha ? '********' : userSenha); // Reseta a senha para esconder após salvar
         setConfirmModalVisible(true);
-        // Reseta o modo de edição
         setIsEditingName(false);
         setIsEditingEmail(false);
         setIsEditingPhone(false);
-        setIsEditingPassword(false);
-      } else {
-        alert('Erro', 'Por favor, insira informações válidas.');
+        setIsEditingSenha(false);
+      } catch (error) {
+        console.error("Erro ao salvar informações: ", error);
+        Alert.alert('Erro', 'Não foi possível salvar as informações.');
       }
-    };
-  
-    // Validação simples de e-mail
-    const validateEmail = (email) => {
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return regex.test(email);
-    };
-  
-    // Validação simples de telefone (apenas números)
-    const validatePhone = (phone) => {
-      const regex = /^\(\d{2}\) \d{5}-\d{4}$/;
-      return regex.test(phone);
-    };
+    } else {
+      Alert.alert('Erro', 'Por favor, insira informações válidas.');
+    }
+  };
 
-    const pickImage = async () => {
-      // No permissions request is necessary for launching the image library
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-  
-      console.log(result);
-  
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
-      }
-    };
-    return (
-      <View style={styles.container}>
-       <Text style={styles.header}>Sua Conta</Text>
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    const regex = /^\(\d{2}\) \d{5}-\d{4}$/;
+    return regex.test(phone);
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Sua Conta</Text>
       {image && <Image source={{ uri: image }} style={styles.image} />}
-
-      {/* Botão para abrir o modal */}
       <TouchableOpacity onPress={pickImage} style={styles.editPhotoButton}>
         <Text style={styles.editPhotoText}>Editar Foto</Text>
       </TouchableOpacity>
-
-  
-  <ScrollView>
+      <ScrollView>
         <View style={styles.infoContainer}>
           <View style={styles.infoTextContainer}>
             <Text style={styles.label}>Nome:</Text>
-            </View>
-            {isEditingName ? (
-               <TextInput
-               style={styles.inputField}
-               value={newName}
-               onChangeText={setNewName}
-             />
-            
-           ) : (
-            <Text style={styles.value}>{name}</Text>
+          </View>
+          {isEditingName ? (
+            <TextInput
+              style={styles.inputField}
+              value={newName}
+              onChangeText={setNewName}
+            />
+          ) : (
+            <Text style={styles.value}>{userName}</Text>
           )}
           <TouchableOpacity onPress={toggleEditName} style={styles.iconButton}>
             <FontAwesome5 name={isEditingName ? "save" : "edit"} size={25} color="#641919" />
           </TouchableOpacity>
         </View>
-  
         <View style={styles.infoContainer}>
           <View style={styles.infoTextContainer}>
             <Text style={styles.label}>E-mail:</Text>
           </View>
-        {isEditingEmail ? (
-          <TextInput
-            style={styles.inputField}
-            value={newEmail}
-            onChangeText={setNewEmail}
-            keyboardType="email-address"
-          />
-        ) : (
-          <Text style={styles.value}>{email}</Text>
-        )}
-        <TouchableOpacity onPress={toggleEditEmail} style={styles.iconButton}>
-          <FontAwesome5 name={isEditingEmail ? "save" : "edit"} size={25} color="#641919" />
-        </TouchableOpacity>
-      </View>
-  
+          {isEditingEmail ? (
+            <TextInput
+              style={styles.inputField}
+              value={newEmail}
+              onChangeText={setNewEmail}
+              keyboardType="email-address"
+            />
+          ) : (
+            <Text style={styles.value}>{userEmail}</Text>
+          )}
+          <TouchableOpacity onPress={toggleEditEmail} style={styles.iconButton}>
+            <FontAwesome5 name={isEditingEmail ? "save" : "edit"} size={25} color="#641919" />
+          </TouchableOpacity>
+        </View>
         <View style={styles.infoContainer}>
           <View style={styles.infoTextContainer}>
             <Text style={styles.label}>Telefone:</Text>
           </View>
-            {isEditingPhone ? (
+          {isEditingPhone ? (
             <TextInput
               style={styles.inputField}
               value={newPhone}
@@ -138,62 +166,58 @@
               keyboardType="phone-pad"
             />
           ) : (
-            <Text style={styles.value}>{phone}</Text>
+            <Text style={styles.value}>{userNumCel}</Text>
           )}
           <TouchableOpacity onPress={toggleEditPhone} style={styles.iconButton}>
             <FontAwesome5 name={isEditingPhone ? "save" : "edit"} size={25} color="#641919" />
           </TouchableOpacity>
         </View>
-  
         <View style={styles.infoContainer}>
           <View style={styles.infoTextContainer}>
             <Text style={styles.label}>Senha:</Text>
           </View>
-            {isEditingPassword ? (
+          {isEditingSenha ? (
             <TextInput
               style={styles.inputField}
-              value={newPassword}
-              onChangeText={setNewPassword}
+              value={newSenha}
+              onChangeText={setNewSenha}
               secureTextEntry={true}
               placeholder="Digite a nova senha"
             />
           ) : (
-          <Text style={styles.value}>{password}</Text>
-        )} 
-          <TouchableOpacity onPress={toggleEditPassword} style={styles.iconButton}>
-            <FontAwesome5 name={isEditingPassword ? "save" : "edit"} size={25} color="#641919" />
+            <Text style={styles.value}>{userSenha}</Text>
+          )}
+          <TouchableOpacity onPress={toggleEditSenha} style={styles.iconButton}>
+            <FontAwesome5 name={isEditingSenha ? "save" : "edit"} size={25} color="#641919" />
           </TouchableOpacity>
         </View>
-  
-       {/* Modal de confirmação */}
-    <Modal
-    animationType="slide"
-    transparent={true}
-    visible={confirmModalVisible}
-    onRequestClose={() => setConfirmModalVisible(false)}
-  >
-    <View style={styles.modalContainer}>
-      <View style={styles.modalContent}>
-      <Image source={require('../assets/borbo.png')} style={styles.borb} />
-        <Text style={styles.modalText}>Informações salvas com sucesso!</Text>
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => setConfirmModalVisible(false)}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={confirmModalVisible}
+          onRequestClose={() => setConfirmModalVisible(false)}
         >
-          
-          <Text style={styles.closeText}>Fechar</Text>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Image source={require('../assets/borbo.png')} style={styles.borb} />
+              <Text style={styles.modalText}>Informações salvas com sucesso!</Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setConfirmModalVisible(false)}
+              >
+                <Text style={styles.closeText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+        <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
+          <Text style={styles.saveButtonText}>Salvar</Text>
         </TouchableOpacity>
-      </View>
+        </ScrollView>
     </View>
-  </Modal>
-
-  <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-    <Text style={styles.saveButtonText}>Salvar</Text>
-  </TouchableOpacity>
-  </ScrollView>
-  </View>
   );
-};
+}
+
   
   const styles = StyleSheet.create({
     container: {

@@ -9,17 +9,17 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function CadastroScreen({ navigation }){
-  const [name, setName] = useState('');
-  const [tel, setTel] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userName, setName] = useState('');
+  const [userNumCel, setTel] = useState('');
+  const [userEmail, setEmail] = useState('');
+  const [userSenha, setSenha] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSignUp = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, userEmail, userSenha);
       const user = userCredential.user;
-      const userData = { email, name, tel, password };
+      const userData = { userEmail, userName, userNumCel, userSenha };
 
       await setDoc(doc(db, "Usuário", user.uid), userData);
       navigation.replace("Login")
@@ -33,7 +33,6 @@ export default function CadastroScreen({ navigation }){
       console.error("Error adding document: ", error);
     }
   };
-  const [checked, setChecked] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -54,17 +53,17 @@ export default function CadastroScreen({ navigation }){
       <Input style={styles.input}  placeholder="E-mail"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'envelope', color:'#49070A98'}} onChangeText={value => setEmail(value)}  keyboardType='email-address'  />
     </View>
     <View style={styles.senha}>
-      <Input style={styles.input} placeholder="Senha" placeholderTextColor="#49070A98" leftIcon={{ type: "font-awesome", name: "lock", color: "#49070A98" }} onChangeText={(value) => setPassword(value)} secureTextEntry={true} />
+      <Input style={styles.input} placeholder="Senha" placeholderTextColor="#49070A98" leftIcon={{ type: "font-awesome", name: "lock", color: "#49070A98" }} onChangeText={(value) => setSenha(value)} secureTextEntry={true} />
     </View>
     <Image source = {require('../assets/linha.png')} style={styles.linha} />
     <View>
-      <CheckBox title='Declaro que li e concordo com os Termos e Condições.' checked={checked} onPress={() => setChecked(!checked)} containerStyle={styles.checkboxContainer} textStyle={styles.checkboxText}  checkedColor='#49070A' uncheckedColor='#49070A80'/>
+      <Text style={styles.termos}> Ao me cadastrar, eu declaro que li e concordo com os <Text style={styles.underline} onPress={() => navigation.navigate("Termos")}>Termos e Condições.</Text> </Text>
     </View>
       <TouchableOpacity  style={styles.bottoncadastrar} onPress={handleSignUp}>
        <Text style={styles.cadastrar}> Cadastrar </Text>
       </TouchableOpacity>
       {message ? <Text>{message}</Text> : null}
-      <Text onPress={() => navigate.navigation("Login")} style={styles.entrar}> Já tem uma conta? Entrar </Text>
+      <Text onPress={() => navigation.navigate("Login")} style={styles.entrar}> Já tem uma conta? Entrar </Text>
       </View>
     </ScrollView>
     
@@ -164,19 +163,20 @@ const styles = StyleSheet.create({
     height: 1.5,
     marginTop: 20,
   },
-  checkboxContainer: {
-    backgroundColor: '#FFEDE3',
-    borderWidth: 0,
-    width: 340,
-    marginRight: 20,
-  },
-  checkboxText: {
-    fontSize: 16,
-    color: '#49070A80',
+  termos: {
+    fontSize: 14,
+    color: '#49070A',
     fontFamily: 'Inter_400Regular',
+    width: 360,
+    marginTop: 5,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+    fontFamily: 'Inter_600SemiBold',
+    color: '#112947',
   },
   bottoncadastrar:{
-    marginTop: 10,
+    marginTop: 30,
     width: 250,
     height: 70,
     color:'#FFEDE3',
