@@ -78,7 +78,7 @@ function StackNavigator({ onLoginSuccess }) {
       />
       {/* HomeScreen apenas redireciona para o drawer após login */}
       <Stack.Screen
-        name="Home"
+        name="HomeStack"
         component={DrawerNavigator} 
         options={{ headerShown: false }}
       />
