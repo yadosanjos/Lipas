@@ -92,13 +92,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  titulo: {
-    marginTop: height * 0.04,
-    width: width * 0.8,
-    height: width * 0.06,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
   botao: {
     width: 51,
     height: 50,
