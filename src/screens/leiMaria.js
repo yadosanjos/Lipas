@@ -6,7 +6,8 @@ const LeiMariaScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_leimaria.png')} style = {styles.titulo}/>
+     <Text style={styles.Title}>Maria da Penha</Text>
+     <Text style={styles.Titulo2}>Lei N°11.340/2006</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}>
@@ -91,6 +92,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  titulo: {
+    marginTop: height * 0.04,
+    width: width * 0.8,
+    height: width * 0.06,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
   botao: {
     width: 51,
     height: 50,
@@ -98,12 +106,19 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 400,
-    height: 80,
-    marginTop: 150,
-    marginLeft: 8,
-    marginBottom: 30,
+  Title: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
+  },
+  Titulo2: {
+    fontSize: 24,
+    fontFamily: "Inter_500Medium",
+    color: '#631C1C',
+    textAlign: 'center',
   },
   texto: {
     width: 400,
