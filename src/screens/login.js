@@ -18,7 +18,7 @@ export default function Login({ navigation }) {
     const user = userCredential.user;
     console.log({user})
     if (user){
-      navigation.replace("Home")
+      navigation.replace("HomeStack")
     }
 
   })
