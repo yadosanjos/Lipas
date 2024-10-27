@@ -1,50 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import {
-  Inter_700Bold,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_400Regular,
-} from "@expo-google-fonts/inter";
-import {
-  DMSerifDisplay_400Regular,
-  DMSerifDisplay_400Regular_Italic,
-} from '@expo-google-fonts/dm-serif-display';
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
-
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 
-SplashScreen.preventAutoHideAsync();
-import { DrawerActions } from '@react-navigation/native';
-
 
 const HomeScreen = ({ navigation }) => {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          Inter_700Bold,
-          Inter_500Medium,
-          Inter_600SemiBold,
-          Inter_400Regular,
-          DMSerifDisplay_400Regular,
-          DMSerifDisplay_400Regular_Italic,
-        });
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  }, []);
-
-
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [region, setRegion] = useState({
@@ -121,7 +81,7 @@ const HomeScreen = ({ navigation }) => {
 
       <View style={styles.container2}>
       <Text style={styles.texto}> Você ainda não tem contatos de emergência Lipa’s! Convide pessoas de confiança usuários Lipa’s  </Text>
-       <TouchableOpacity style={styles.convida} onPress={() => navigation.navigate('BotaoPanico')}> 
+       <TouchableOpacity style={styles.convida} onPress={() => navigation.navigate('Botao Pânico')}> 
         <Text style={styles.textconvida}> Convidar </Text>
        </TouchableOpacity>
        </View>
