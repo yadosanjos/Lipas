@@ -44,7 +44,7 @@ import ConfigScreen from "../screens/configuracao";
 import InfoScreen from "../screens/contato2";
 import FontSizeScreen from "../screens/fontsize";
 import Cont3Screen from "../screens/explicacontato3";
-import EmergencyContactTypeScreen from "../screens/contato";
+import ContatoScreen from "../screens/contato";
 import ContatoComum from "../screens/usucomum";
 import ContatoLipas from "../screens/usuLipas";
 import ColorCorrectionScreen from "../screens/cor";
@@ -194,7 +194,7 @@ function StackNavigator({ onLoginSuccess }) {
 
       <Stack.Screen 
         name='ExplicaContato1' 
-        component={ EmergencyContactsScreen} 
+        component={ContatoScreen} 
         options={{ headerShown: false }}/>
 
      <Stack.Screen 
@@ -229,7 +229,7 @@ function StackNavigator({ onLoginSuccess }) {
 
         <Stack.Screen
         name='Contato'
-        component={EmergencyContactTypeScreen}
+        component={ContatoScreen}
         options={{headerShown: false}}/>
 
         <Stack.Screen
