@@ -1,9 +1,8 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 
 const SobreScreen = ({ navigation }) => {
   const [expandedSections, setExpandedSections] = useState({
-    
     sobreLipas: false,
     quemEsta: false,
     sobreProjeto: false,
@@ -21,9 +20,7 @@ const SobreScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <View style={styles.iconPlaceholder}>
-            
-          </View>
+          <View style={styles.iconPlaceholder} />
         </View>
 
         <Text style={styles.description}>Saiba mais sobre o Lipa's e suas funcionalidades</Text>
@@ -72,12 +69,7 @@ const SobreScreen = ({ navigation }) => {
         </View>
 
         <TouchableOpacity style={styles.termbutton} onPress={() => navigation.navigate('Termos')}>
-          <Text style={styles.buttonText}>Termos de uso</Text>
-          
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.privacibutton} onPress={() => navigation.navigate('Termos')}>
-          <Text style={styles.buttonText}>Política de Privacidade</Text>
+          <Text style={styles.buttonText}>Termos e Política</Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -135,7 +127,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_700Bold',
   },
     sectionContent: {
-    fontSize: 16,
+    fontSize: 22,
     color: '#631C1C',
     paddingVertical: 1,
     marginVertical: 1,
