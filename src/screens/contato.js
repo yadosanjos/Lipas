@@ -1,50 +1,15 @@
-import React, { useState, useEffect} from 'react';
-import {
-  Inter_700Bold,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_400Regular,
-} from "@expo-google-fonts/inter";
-import {
-  DMSerifDisplay_400Regular,
-  DMSerifDisplay_400Regular_Italic,
-} from '@expo-google-fonts/dm-serif-display';
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
-
-SplashScreen.preventAutoHideAsync();
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-const EmergencyContactTypeScreen = ({ navigation }) => {
-    const [appIsReady, setAppIsReady] = useState(false);
 
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          Inter_700Bold,
-          Inter_500Medium,
-          Inter_600SemiBold,
-          Inter_400Regular,
-          DMSerifDisplay_400Regular,
-          DMSerifDisplay_400Regular_Italic,
-        });
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  }, []);
+const ContatoScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-     <TouchableOpacity onPress={() => navigation.navigate('BotaoPanico')}>
-        <MaterialIcons name="arrow-back-ios" size={30} color="#fff" />
+     <TouchableOpacity style={styles.buttonicon} onPress={() => navigation.goBack()}>
+        <MaterialIcons style={styles.icon} name="arrow-back-ios" size={40} color="#49070A" />
       </TouchableOpacity>
 
-      <View style={styles.content}>
+      <View style={styles.container2}>
         <Text style={styles.title}>Qual usuário é o seu contato de emergência?</Text>
 
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('usucomum')}> 
@@ -84,14 +49,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 24,
   },
-  content: {
+  container2: {
     width: '100%',
     backgroundColor: '#FAE9E4',
     borderRadius: 16,
-    padding: 22,
-    elevation: 10,
-    height: '55%',
-    marginVertical: 157,
+    padding: 20,
+    height: '52%',
+    marginVertical: 140,
     alignItems: 'center',
   },
   title: {
@@ -136,8 +100,20 @@ const styles = StyleSheet.create({
   bold: {
     fontFamily: 'Inter_700Bold',
     color: '49070A',
-    
+  },
+  icon:{
+   marginLeft: 'auto',
+  },
+  buttonicon:{
+    backgroundColor: '#FAE9E4',
+    marginTop: 10,
+    marginLeft: 5,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
-export default EmergencyContactTypeScreen;
+export default ContatoScreen;
