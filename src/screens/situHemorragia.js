@@ -6,7 +6,7 @@ const HemorragiaScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_hemorragia.png')} style = {styles.titulo}/>
+     <Text style={styles.Title}>Hemorragia Nasal</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -65,12 +65,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 380,
-    height: 28,
-    marginTop: 150,
-    marginLeft: 15,
-    marginBottom: 30,
+  Title: {
+    fontSize: 50,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
   },
   texto: {
     width: 400,

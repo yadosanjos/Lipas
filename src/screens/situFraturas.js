@@ -6,7 +6,7 @@ const FraturasScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_fraturas.png')} style = {styles.titulo}/>
+    <Text style={styles.Title}>Fratura</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -56,12 +56,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 285,
-    height: 42,
-    marginTop: 150,
-    marginLeft: 65,
-    marginBottom: 30,
+  Title: {
+    fontSize: 60,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
   },
   texto: {
     width: 400,

@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, Image, Dimensions, ScrollView, TouchableWithoutFeedback, Text } from 'react-native';
+import { Title } from 'react-native-paper';
 
 
 const DesmaioScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_desmaio.png')} style = {styles.titulo}/>
+    <Text style={styles.Title}>Desmaio</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -59,12 +60,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 230,
-    height: 38,
-    marginTop: 150,
-    marginLeft: 90,
-    marginBottom: 30,
+  Title: {
+    fontSize: 55,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
   },
   texto: {
     width: 400,

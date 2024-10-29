@@ -6,7 +6,7 @@ const QueimadurasScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_queimaduras.png')} style = {styles.titulo}/>
+    <Text style={styles.Title}>Queimadura</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -68,12 +68,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 345,
-    height: 48,
-    marginTop: 150,
-    marginLeft: 30,
-    marginBottom: 30,
+  Title: {
+    fontSize: 50,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
   },
   texto: {
     width: 400,

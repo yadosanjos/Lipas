@@ -6,7 +6,7 @@ const ConvulsoesScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_convulsoes.png')} style = {styles.titulo}/>
+     <Text style={styles.Title}>Convulsões</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -66,12 +66,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 330,
-    height: 100,
-    marginTop: 150,
-    marginLeft: 40,
-    marginBottom: 30,
+  Title: {
+    fontSize: 60,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
   },
   texto: {
     width: 400,
