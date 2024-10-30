@@ -32,6 +32,10 @@ INSTALAÇÕES NECESSÁRIAS
 
    npx expo install react-native-maps
 
+   npm i react-native-geolocation-service
+
+   npm i react-native-background-actions
+
 
 Se caso não funcionar o comando de instalar as dependências, abaixo vai estar todo o conteúdo que foi importado:
 
@@ -56,6 +60,8 @@ Se caso não funcionar o comando de instalar as dependências, abaixo vai estar 
    expo install react-native-pager-view
     - OU -
    npm install react-native-pager-view
+
+   npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
 
 
 
