@@ -1,40 +1,57 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from "react-native";
 import { Input } from "react-native-elements";
-
 import { auth } from '../services/firebase/conf';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../services/firebase/conf';
 
 export default function Login({ navigation }) {
   const [userEmail, setEmail] = useState("");
   const [userSenha, setSenha] = useState("");
   const [error, setError] = useState("");
+  const [Message, setMessage] = useState('');
 
   const handleLogin = () => {
+    setError("");  // Reseta o erro ao iniciar o login
     signInWithEmailAndPassword(auth, userEmail, userSenha)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log({user})
-    if (user){
-      navigation.replace("HomeStack")
-    }
-
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
-
+      .then((userCredential) => {
+        const user = userCredential.user;
+        if (user) {
+          navigation.replace("Home");
+        }
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setError('Não foi possivel entrar na conta');  // Define a mensagem de erro
+        console.error(error.code, errorMessage);
+      });
   };
 
+  const Login = async () => {
+    try {
+      setError("");  // Reseta o erro ao iniciar o cadastro
+      const userCredential = await createUserWithEmailAndPassword(auth, userEmail, userSenha);
+      const user = userCredential.user;
+      const userData = { userEmail, userSenha };
+      await setDoc(doc(db, "Usuário", user.uid), userData);
+      setMessage('Conta criada com sucesso');
+      navigation.replace("Login");
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        setMessage('Endereço de email já existe');
+      } else {
+        setMessage('Não foi possível criar a conta, tente novamente');
+      }
+      console.error("Error adding document: ", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Image source={require("../assets/borboleta.png")} style={styles.borboleta} />
       <View style={styles.container2}>
-      <Text style={styles.Title}>Login</Text>
+        <Text style={styles.Title}>Login</Text>
         <View style={styles.email}>
           <Input
             style={styles.input}
@@ -58,6 +75,8 @@ export default function Login({ navigation }) {
         <Text onPress={() => navigation.navigate("Cadastro")} style={styles.cadastre}>
           Não tem uma conta? Cadastre-se
         </Text>
+        {Message ? <Text style={styles.Message}>{Message}</Text> : null}
+        {error ? <Text style={styles.Message}>{error}</Text> : null}
         <TouchableOpacity onPress={handleLogin} style={styles.bottonentrar}>
           <Text style={styles.entrar}>Entrar</Text>
         </TouchableOpacity>
@@ -101,7 +120,6 @@ const styles = StyleSheet.create({
     color: '#631C1C',
     textAlign: 'center',
     paddingTop: 12,
-   
   },
   email: {
     backgroundColor: "#FFFFFF",
@@ -135,7 +153,7 @@ const styles = StyleSheet.create({
     marginTop: height * 0.01,
   },
   bottonentrar: {
-    marginTop: height * 0.04,
+    marginTop: height * 0.03,
     width: width * 0.6,
     height: height * 0.08,
     backgroundColor: "#49070A",
@@ -166,4 +184,10 @@ const styles = StyleSheet.create({
     height: width * 0.15,
     marginTop: height * 0.02,
   },
+  Message: {
+    fontSize: 16,
+    fontFamily: 'Inter_700Bold',
+    color: '#791227',
+    marginTop: 35,
+  }
 });

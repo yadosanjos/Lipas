@@ -59,10 +59,10 @@ export default function CadastroScreen({ navigation }){
     <View>
       <Text style={styles.termos}> Ao me cadastrar, eu declaro que li e concordo com os <Text style={styles.underline} onPress={() => navigation.navigate("Termos")}>Termos e Condições.</Text> </Text>
     </View>
+     {message ? <Text style={styles.Message}>{message}</Text> : null}
       <TouchableOpacity  style={styles.bottoncadastrar} onPress={handleSignUp}>
        <Text style={styles.cadastrar}> Cadastrar </Text>
       </TouchableOpacity>
-      {message ? <Text>{message}</Text> : null}
       <Text onPress={() => navigation.navigate("Login")} style={styles.entrar}> Já tem uma conta? Entrar </Text>
       </View>
     </ScrollView>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     color: '#112947',
   },
   bottoncadastrar:{
-    marginTop: 30,
+    marginTop: 10,
     width: 250,
     height: 70,
     color:'#FFEDE3',
@@ -202,4 +202,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 250,
   },
+  Message: {
+    fontSize: 18,    
+    fontFamily: 'Inter_700Bold',
+    color:'#791227',
+    marginTop: 30,
+
+  }
 });
