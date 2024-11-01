@@ -11,7 +11,7 @@ import {
 } from '@expo-google-fonts/dm-serif-display';
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-
+import { auth } from '../services/firebase/conf';
 SplashScreen.preventAutoHideAsync();
 import { View, Text, StyleSheet, TouchableOpacity, Image, Switch, Modal } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome' 
@@ -24,8 +24,13 @@ const [modalVisible, setModalVisible] = useState(false);
 const handleExit = () => {
   // Aqui você pode adicionar a lógica de saída do app
   console.log("Saindo do app...");
+  signOut()
   setModalVisible(false);
 };
+const signOut = () => {
+  auth.signOut();
+  navigation.navigate('Login');
+}
   useEffect(() => {
     async function prepare() {
       try {
@@ -274,4 +279,4 @@ icon: {
     paddingVertical: 8,
   },
 });
-export default ConfigScreen;
+export default ConfigScreen;

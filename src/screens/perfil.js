@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, Modal } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { auth, db } from '../services/firebase/conf';
+import { auth, db, storage } from '../services/firebase/conf';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 
 export default function ProfileScreen() {
   const [image, setImage] = useState(null);
@@ -12,14 +13,14 @@ export default function ProfileScreen() {
   const [userEmail, setEmail] = useState('');
   const [userNumCel, setPhone] = useState('');
   const [userSenha, setSenha] = useState('');
-  const [modalVisible, setModalVisible] = useState(false); // Modal para opções de foto
-  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // Modal de confirmação de salvamento
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false); 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [isEditingSenha, setIsEditingSenha] = useState(false);
+  const [progress, setProgress ] = useState(0);
 
-  // Estados temporários para armazenar o valor enquanto edita
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newPhone, setNewPhone] = useState('');
@@ -33,6 +34,7 @@ export default function ProfileScreen() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const userData = docSnap.data();
+            console.log({userData});
             setName(userData.userName);
             setEmail(userData.userEmail);
             setPhone(userData.userNumCel);
@@ -40,6 +42,7 @@ export default function ProfileScreen() {
             setNewName(userData.userName);
             setNewEmail(userData.userEmail);
             setNewPhone(userData.userNumCel);
+            setImage(userData.userImagem);
           } else {
             console.log("No such document!");
           }
@@ -51,32 +54,77 @@ export default function ProfileScreen() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    })();
+  }, []);
+  
+
   const toggleEditName = () => setIsEditingName(!isEditingName);
   const toggleEditEmail = () => setIsEditingEmail(!isEditingEmail);
   const toggleEditPhone = () => setIsEditingPhone(!isEditingPhone);
   const toggleEditSenha = () => setIsEditingSenha(!isEditingSenha);
 
   const handleSave = async () => {
-    if (validateEmail(newEmail) && validatePhone(newPhone)) {
+    if (validateEmail(newEmail) && !validatePhone(newPhone)) {
       try {
+        let imageUrl = image; 
+        
+        if (image) {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const filename = `${Date.now()}.jpg`; // Coloque crases aqui
+          const mountainsRef = ref(storage, `images/${filename}`);
+  
+          const uploadTask = uploadBytesResumable(mountainsRef, blob);
+  
+          await new Promise((resolve, reject) => {
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setProgress(progress);
+              },
+              (error) => {
+                console.error("Upload failed: ", error);
+                Alert.alert("Erro", "Falha ao fazer upload da imagem.");
+                reject(error);
+              },
+              async () => {
+                imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve();
+              }
+            );
+          });
+        }
+  
         const user = auth.currentUser;
         const userDocRef = doc(db, "Usuário", user.uid);
+        
         await setDoc(userDocRef, {
+          userImagem: imageUrl, 
           userName: newName,
           userEmail: newEmail,
           userNumCel: newPhone,
-          userSenha: newSenha || userSenha, // Mantém a senha antiga se nenhuma nova senha for fornecida
-        }, { merge: true }); // Use merge to update only the fields that have changed
+          userSenha: newSenha || userSenha,
+        }, { merge: true });
+  
         console.log('Informações salvas com sucesso.');
         setName(newName);
         setEmail(newEmail);
         setPhone(newPhone);
-        setSenha(newSenha ? '********' : userSenha); // Reseta a senha para esconder após salvar
+        setSenha(newSenha ? '' : userSenha); 
+  
         setConfirmModalVisible(true);
         setIsEditingName(false);
         setIsEditingEmail(false);
         setIsEditingPhone(false);
         setIsEditingSenha(false);
+        
       } catch (error) {
         console.error("Erro ao salvar informações: ", error);
         Alert.alert('Erro', 'Não foi possível salvar as informações.');
@@ -85,6 +133,8 @@ export default function ProfileScreen() {
       Alert.alert('Erro', 'Por favor, insira informações válidas.');
     }
   };
+  
+  
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -103,12 +153,10 @@ export default function ProfileScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
+      setImage(result.assets[0]?.uri);
+   }
+   
   };
 
   return (
@@ -422,5 +470,5 @@ export default function ProfileScreen() {
       marginVertical: 1,
       marginRight: 25,
       alignItems: 'center',
-    },
+    },
 });
