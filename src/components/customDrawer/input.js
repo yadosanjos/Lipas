@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { auth, db } from '../../services/firebase/conf';  // Certifique-se de importar corretamente seu módulo de firebase
 import { doc, getDoc } from 'firebase/firestore';
-
+import { useNavigation } from '@react-navigation/native';
 const CustomDrawer = (props) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-
+  const [image, setImage] = useState('https://thumbs.dreamstime.com/b/icono-de-la-mujer-para-el-perfil-imagen-femenino-ser-humano-o-muestra-y-s%C3%ADmbolo-gente-126138203.jpg');
+const navigation = useNavigation();
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
@@ -18,11 +19,17 @@ const CustomDrawer = (props) => {
           const userData = docSnap.data();
           setUserName(userData.userName);
           setUserEmail(userData.userEmail);
+          setImage(userData.userImagem);
         }
       }
     };
     fetchUserData();
   }, []);
+
+  const signOut = () => {
+    auth.signOut();
+    navigation.navigate('Login');
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -46,7 +53,7 @@ const CustomDrawer = (props) => {
         <View style={styles.container}>
           <View style={styles.textContainer}>
             <View style={styles.settingItem}>
-              <Image source={require('../../assets/imagem/juju-profile.jpeg')} style={styles.user} />
+              <Image source={{uri:image}} style={styles.user} />
               <View style={styles.textContainer}>
                 <Text style={styles.optionText}>{userName}</Text>
                 <Text style={styles.optionStatus}>{userEmail}</Text>
@@ -56,7 +63,7 @@ const CustomDrawer = (props) => {
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-      <TouchableOpacity style={styles.exitButton} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.exitButton} onPress={signOut}>
         <Text style={styles.exitButtonText}>Sair</Text>
       </TouchableOpacity>
       <View>
@@ -123,5 +130,5 @@ exitButtonText: {
   textAlign: 'center'
 },
 });
-export default CustomDrawer;
+export default CustomDrawer;
 
