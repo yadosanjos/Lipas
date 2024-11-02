@@ -22,9 +22,8 @@ export default function ProfileScreen() {
   const [progress, setProgress ] = useState(0);
 
   const [newName, setNewName] = useState('');
-  const [newEmail, setNewEmail] = useState('');
   const [newPhone, setNewPhone] = useState('');
-  const [newSenha, setNewSenha] = useState('');
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -36,11 +35,8 @@ export default function ProfileScreen() {
             const userData = docSnap.data();
             console.log({userData});
             setName(userData.userName);
-            setEmail(userData.userEmail);
             setPhone(userData.userNumCel);
-            setSenha(userData.userSenha);
             setNewName(userData.userName);
-            setNewEmail(userData.userEmail);
             setNewPhone(userData.userNumCel);
             setImage(userData.userImagem);
           } else {
@@ -65,10 +61,8 @@ export default function ProfileScreen() {
   
 
   const toggleEditName = () => setIsEditingName(!isEditingName);
-  const toggleEditEmail = () => setIsEditingEmail(!isEditingEmail);
   const toggleEditPhone = () => setIsEditingPhone(!isEditingPhone);
-  const toggleEditSenha = () => setIsEditingSenha(!isEditingSenha);
-
+ 
   const handleSave = async () => {
     if (validateEmail(newEmail) && !validatePhone(newPhone)) {
       try {
@@ -108,22 +102,16 @@ export default function ProfileScreen() {
         await setDoc(userDocRef, {
           userImagem: imageUrl, 
           userName: newName,
-          userEmail: newEmail,
           userNumCel: newPhone,
-          userSenha: newSenha || userSenha,
         }, { merge: true });
   
         console.log('Informações salvas com sucesso.');
         setName(newName);
-        setEmail(newEmail);
-        setPhone(newPhone);
-        setSenha(newSenha ? '' : userSenha); 
+        setPhone(newPhone); 
   
         setConfirmModalVisible(true);
         setIsEditingName(false);
-        setIsEditingEmail(false);
         setIsEditingPhone(false);
-        setIsEditingSenha(false);
         
       } catch (error) {
         console.error("Erro ao salvar informações: ", error);
@@ -136,10 +124,7 @@ export default function ProfileScreen() {
   
   
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+
 
   const validatePhone = (phone) => {
     const regex = /^\(\d{2}\) \d{5}-\d{4}$/;
@@ -184,24 +169,7 @@ export default function ProfileScreen() {
             <FontAwesome5 name={isEditingName ? "save" : "edit"} size={25} color="#641919" />
           </TouchableOpacity>
         </View>
-        <View style={styles.infoContainer}>
-          <View style={styles.infoTextContainer}>
-            <Text style={styles.label}>E-mail:</Text>
-          </View>
-          {isEditingEmail ? (
-            <TextInput
-              style={styles.inputField}
-              value={newEmail}
-              onChangeText={setNewEmail}
-              keyboardType="email-address"
-            />
-          ) : (
-            <Text style={styles.value}>{userEmail}</Text>
-          )}
-          <TouchableOpacity onPress={toggleEditEmail} style={styles.iconButton}>
-            <FontAwesome5 name={isEditingEmail ? "save" : "edit"} size={25} color="#641919" />
-          </TouchableOpacity>
-        </View>
+       
         <View style={styles.infoContainer}>
           <View style={styles.infoTextContainer}>
             <Text style={styles.label}>Telefone:</Text>
@@ -218,25 +186,6 @@ export default function ProfileScreen() {
           )}
           <TouchableOpacity onPress={toggleEditPhone} style={styles.iconButton}>
             <FontAwesome5 name={isEditingPhone ? "save" : "edit"} size={25} color="#641919" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.infoContainer}>
-          <View style={styles.infoTextContainer}>
-            <Text style={styles.label}>Senha:</Text>
-          </View>
-          {isEditingSenha ? (
-            <TextInput
-              style={styles.inputField}
-              value={newSenha}
-              onChangeText={setNewSenha}
-              secureTextEntry={true}
-              placeholder="Digite a nova senha"
-            />
-          ) : (
-            <Text style={styles.value}>{userSenha}</Text>
-          )}
-          <TouchableOpacity onPress={toggleEditSenha} style={styles.iconButton}>
-            <FontAwesome5 name={isEditingSenha ? "save" : "edit"} size={25} color="#641919" />
           </TouchableOpacity>
         </View>
         <Modal
@@ -285,7 +234,7 @@ export default function ProfileScreen() {
     editPhotoButton: {
       backgroundColor: '#49070A',
       borderWidth: 2,
-      padding: 17,
+      padding: 20,
       marginHorizontal: 110,
       marginVertical: 10,
       alignItems: 'center',
@@ -305,7 +254,7 @@ export default function ProfileScreen() {
       marginBottom: 10,
       flexDirection: 'row',
       alignItems: 'center',
-      paddingVertical: 15,
+      paddingVertical: 25,
       borderBottomWidth: 1,
       borderColor: '#DDC2BB',
     },
@@ -348,7 +297,7 @@ export default function ProfileScreen() {
       paddingVertical: 10,
       borderRadius: 18,
       alignItems: 'center',
-      marginTop: 65,
+      marginTop: 100,
       marginHorizontal: 85,
     },
     saveButtonText: {
@@ -370,7 +319,7 @@ export default function ProfileScreen() {
     image: {
       width: 165,
       height: 165,
-      marginHorizontal: 109,
+      marginHorizontal: 90,
       borderRadius: 100,
       justifyContent: 'center',
       alignItems: 'center',
