@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Inter_700Bold,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_400Regular,
-} from "@expo-google-fonts/inter";
-import {
-  DMSerifDisplay_400Regular,
-  DMSerifDisplay_400Regular_Italic,
-} from '@expo-google-fonts/dm-serif-display';
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
+import React, { useState } from 'react';
 
-SplashScreen.preventAutoHideAsync();
 import { createDrawerNavigator, StyleSheet, View, Text, Image, DrawerItem} from "@react-navigation/drawer";
 import CustomDrawer from "../components/customDrawer/input" 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import TabNavigator from "../routes/tab";
+
+import TabNavigator from './tab';
+
 import PerfilScreen from "../screens/perfil";
 import FeedbackScreen from "../screens/feedback";
 import SobreScreen from "../screens/sobre";
@@ -28,26 +17,6 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   const [appIsReady, setAppIsReady] = useState(false);
 
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          Inter_700Bold,
-          Inter_500Medium,
-          Inter_600SemiBold,
-          Inter_400Regular,
-          DMSerifDisplay_400Regular,
-          DMSerifDisplay_400Regular_Italic,
-        });
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  }, []);
   return (
     <Drawer.Navigator 
     drawerContent={props => <CustomDrawer {...props}/>}
