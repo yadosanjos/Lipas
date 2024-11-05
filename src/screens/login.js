@@ -1,50 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from "react-native";
 import { Input } from "react-native-elements";
+import * as WebBrowser from 'expo-web-browser';
 import { auth } from '../services/firebase/conf';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { setDoc, doc } from 'firebase/firestore';
-import { db } from '../services/firebase/conf';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import * as Google from 'expo-auth-session/providers/google';
+import * as AuthSession from 'expo-auth-session';
+import { ScrollView } from 'react-native-gesture-handler';
+WebBrowser.maybeCompleteAuthSession();
 
 export default function Login({ navigation }) {
   const [userEmail, setEmail] = useState("");
   const [userSenha, setSenha] = useState("");
   const [error, setError] = useState("");
-  const [Message, setMessage] = useState('');
-
+  const [message, setMessage] = useState('');
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: '1004400319686-3h8vh549c11bkpl3bcg6nnh5mn7rml7a.apps.googleusercontent.com',
+    redirectUri: AuthSession.makeRedirectUri({
+      useProxy: true, 
+    }),
+  });
+  useEffect(() => {
+    const test = AuthSession.makeRedirectUri({useProxy: true})
+    console.log({test});
+    
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+  
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then((userCredential) => {
+          console.log(userCredential.user);
+        })
+        .catch((error) => {
+          if (error.code === 'auth/email-already-in-use') {
+            setMessage('Endereço de email já existe');}
+            else {
+              setMessage('Não é possível criar usuário');
+            }
+    });
+    }
+  }, [response]);
   const handleLogin = () => {
-    setError("");  // Reseta o erro ao iniciar o login
     signInWithEmailAndPassword(auth, userEmail, userSenha)
       .then((userCredential) => {
+        // Signed in 
         const user = userCredential.user;
+        console.log({ user })
         if (user) {
-          navigation.replace("Home");
+          navigation.replace("Home")
         }
       })
       .catch((error) => {
-        const errorMessage = error.message;
-        setError('Não foi possivel entrar na conta');  // Define a mensagem de erro
-        console.error(error.code, errorMessage);
-      });
-  };
-
-  const Login = async () => {
-    try {
-      setError("");  // Reseta o erro ao iniciar o cadastro
-      const userCredential = await createUserWithEmailAndPassword(auth, userEmail, userSenha);
-      const user = userCredential.user;
-      const userData = { userEmail, userSenha };
-      await setDoc(doc(db, "Usuário", user.uid), userData);
-      setMessage('Conta criada com sucesso');
-      navigation.replace("Login");
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        setMessage('Endereço de email já existe');
-      } else {
-        setMessage('Não foi possível criar a conta, tente novamente');
-      }
-      console.error("Error adding document: ", error);
-    }
+          if (error.code === 'auth/email-already-in-use') {
+            setMessage('Endereço de email já existe');
+          } else {
+            setMessage('Não foi possível entrar nessa conta');
+          }
+          console.error("Error adding document: ", error);
+        }
+      )
   };
 
   return (
@@ -75,13 +90,17 @@ export default function Login({ navigation }) {
         <Text onPress={() => navigation.navigate("Cadastro")} style={styles.cadastre}>
           Não tem uma conta? Cadastre-se
         </Text>
-        {Message ? <Text style={styles.Message}>{Message}</Text> : null}
-        {error ? <Text style={styles.Message}>{error}</Text> : null}
+        {message ? <Text style={styles.Message}>{message}</Text> : null}
         <TouchableOpacity onPress={handleLogin} style={styles.bottonentrar}>
           <Text style={styles.entrar}>Entrar</Text>
         </TouchableOpacity>
         <Image source={require("../assets/ou.png")} style={styles.ou} />
-        <TouchableOpacity>
+        <TouchableOpacity
+          disabled={!request}
+          onPress={() => {
+            promptAsync();
+          }}
+        >
           <Image source={require("../assets/google.png")} style={styles.google} />
         </TouchableOpacity>
       </View>
@@ -120,6 +139,7 @@ const styles = StyleSheet.create({
     color: '#631C1C',
     textAlign: 'center',
     paddingTop: 12,
+
   },
   email: {
     backgroundColor: "#FFFFFF",
@@ -153,7 +173,7 @@ const styles = StyleSheet.create({
     marginTop: height * 0.01,
   },
   bottonentrar: {
-    marginTop: height * 0.03,
+    marginTop: height * 0.04,
     width: width * 0.6,
     height: height * 0.08,
     backgroundColor: "#49070A",
@@ -177,17 +197,18 @@ const styles = StyleSheet.create({
   ou: {
     width: width,
     height: height * 0.03,
-    marginTop: height * 0.04,
+    marginTop: height *0.02,
   },
   google: {
     width: width * 0.15,
     height: width * 0.15,
-    marginTop: height * 0.02,
-  },
-  Message: {
-    fontSize: 16,
-    fontFamily: 'Inter_700Bold',
-    color: '#791227',
-    marginTop: 35,
-  }
+    marginTop: height * 0.02,
+  },
+Message: {
+  fontSize: 18,    
+  fontFamily: 'Inter_700Bold',
+  color:'#791227',
+  marginTop: 15,
+
+}
 });
