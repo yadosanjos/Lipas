@@ -64,7 +64,7 @@ export default function ProfileScreen() {
   const toggleEditPhone = () => setIsEditingPhone(!isEditingPhone);
  
   const handleSave = async () => {
-    if (validateEmail(newEmail) && !validatePhone(newPhone)) {
+    if ( !validatePhone(newPhone)) {
       try {
         let imageUrl = image; 
         
