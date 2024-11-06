@@ -6,14 +6,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const FontSizeScreen = () => {
+const FontSizeScreen = ({navigation}) => {
   const [fontSize, setFontSize] = useState(18);
 
   return (
     <View style={styles.container}>
         <View style={styles.navbar}>
         {/* Botão de menu à esquerda */}
-        <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back-ios" size={30} color="#FFEDE3" />
         </TouchableOpacity>
 
@@ -31,6 +31,7 @@ const FontSizeScreen = () => {
         </Text>
       </View>
      
+      <View style={styles.sliderLab}>
       <Slider
         style={styles.slider}
         minimumValue={12}
@@ -40,15 +41,15 @@ const FontSizeScreen = () => {
         minimumTrackTintColor="#A52A2A"
         maximumTrackTintColor="#000000"
       />
-      <View style={styles.sliderLabels}>
+       </View>
+       <View style={styles.sliderLabels}>
         <Text style={styles.sliderLabel}>-A</Text>
         <Text style={styles.previewText}>Pré-visualização</Text>
         <Text style={styles.sliderLabelLarge}>+A</Text>
+        </View>
       </View>
-    </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -56,12 +57,16 @@ const styles = StyleSheet.create({
   },
   sampleText: {
     color: '#FFEDE3',
+    marginStart: 15,
+    marginVertical: 20,
   },
   previewText: {
     fontSize: 18,
-    color: '#000',
+    color: '#49070A',
     textAlign: 'center',
     marginVertical: 30,
+    color: '#49070A',
+    fontFamily: 'Inter_500Medium',
   },
   sliderLabels: {
     flexDirection: 'row',
@@ -69,18 +74,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     alignItems: 'center',
     width: '100%',
-    backgroundColor: '#FAE9E4',
     borderRadius: 30,
     padding: 2,
-    elevation: 10,
     height: '40%',
-    marginVertical: 90,
+    marginVertical: 670,
+    position: 'absolute',
+  },
+  sliderLab: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 1,
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#FAE9E4',
+    borderRadius: 30,
+    height: '40%',
+    marginVertical: 620,
+    position: 'absolute',
   },
   sliderLabel: {
     fontSize: 18,
+    textAlign: 'center',
+      fontFamily: 'Inter_500Medium',
+    color: '#49070A',
+    
   },
   sliderLabelLarge: {
     fontSize: 24,
+    textAlign: 'center',
+    fontFamily: 'Inter_400Regular',
+    color: '#49070A',
   },
   navbar: {
     width: '100%', // Faz a navbar ocupar toda a largura
